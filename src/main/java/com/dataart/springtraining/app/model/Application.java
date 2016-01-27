@@ -39,9 +39,9 @@ public class Application {
     @Column(name = "downloads")
     private Integer downloads;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    private ApplicationCategory category;
+    private Category category;
 
     public Integer getId() {
         return id;
@@ -107,11 +107,11 @@ public class Application {
         this.downloads = downloads;
     }
 
-    public ApplicationCategory getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(ApplicationCategory category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 }

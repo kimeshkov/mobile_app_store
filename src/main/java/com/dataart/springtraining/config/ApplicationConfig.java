@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 
 @Configuration
-@ComponentScan({"com.dataart.springtraining.app"})
+@ComponentScan({"com.dataart.springtraining.app", "com.dataart.springtraining.config.util"})
 @PropertySource("config.properties")
 public class ApplicationConfig {
 
@@ -45,6 +45,12 @@ public class ApplicationConfig {
     public FileSaver fileSaver() throws IOException {
         return new FileSaverImpl(fileStoreRootPath);
     }
+
+  /*  @Bean
+    public ContextRefreshedListener contextRefreshedListener() {
+        ContextRefreshedListener listener = new ContextRefreshedListener();
+        return listener;
+    }*/
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {

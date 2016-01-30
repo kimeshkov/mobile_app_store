@@ -1,6 +1,7 @@
 package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 /**
  * Created by mkim on 13/10/2015.
@@ -113,5 +114,20 @@ public class Application {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Application that = (Application) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(packageName, that.packageName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, packageName);
     }
 }

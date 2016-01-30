@@ -11,7 +11,7 @@ import javax.servlet.ServletException;
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {PersistenceConfig.class, ApplicationConfig.class, /*SecurityConfig.class*/};
+        return new Class<?>[] {PersistenceConfig.class, ApplicationConfig.class, SecurityConfig.class};
     }
 
     @Override

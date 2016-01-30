@@ -22,10 +22,6 @@ public class Category {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public String getCategoryName() {
         return categoryName;
     }
@@ -38,17 +34,12 @@ public class Category {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        Category that = (Category) o;
-
-        if (categoryName != null ? !categoryName.equals(that.categoryName) : that.categoryName != null) return false;
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
-
-        return true;
+        Category category = (Category) o;
+        return Objects.equals(categoryName, category.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, categoryName);
+        return Objects.hash(categoryName);
     }
 }

@@ -1,6 +1,7 @@
 package com.dataart.springtraining.app.service.util;
 
-import com.google.common.base.Optional;
+
+import java.util.Optional;
 
 /**
  * Created by mkim on 29/10/2015.
@@ -11,8 +12,8 @@ public class ApplicationData {
 
     private String name;
     private String packageName;
-    private Optional<String> picture128 = Optional.absent();
-    private Optional<String> picture512 = Optional.absent();
+    private Optional<String> picture128 = Optional.empty();
+    private Optional<String> picture512 = Optional.empty();
 
     public String getDescription() {
         return description;

@@ -46,12 +46,6 @@ public class ApplicationConfig {
         return new FileSaverImpl(fileStoreRootPath);
     }
 
-  /*  @Bean
-    public ContextRefreshedListener contextRefreshedListener() {
-        ContextRefreshedListener listener = new ContextRefreshedListener();
-        return listener;
-    }*/
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigIn() {
         return new PropertySourcesPlaceholderConfigurer();

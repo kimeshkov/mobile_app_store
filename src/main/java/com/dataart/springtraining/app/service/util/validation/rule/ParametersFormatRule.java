@@ -6,11 +6,11 @@ import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.UploadError;
 import com.dataart.springtraining.app.service.util.validation.ValidationContext;
 import com.dataart.springtraining.app.service.util.validation.ValidationRule;
-import com.google.common.base.Optional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by mkim on 20/10/2015.
@@ -43,8 +43,8 @@ public class ParametersFormatRule implements ValidationRule {
 
         checkPackageIsUnique(parametersMap.get(PACKAGE));
 
-        data.setPicture128(Optional.fromNullable(parametersMap.get(PICTURE_128)));
-        data.setPicture512(Optional.fromNullable(parametersMap.get(PICTURE_512)));
+        data.setPicture128(Optional.ofNullable(parametersMap.get(PICTURE_128)));
+        data.setPicture512(Optional.ofNullable(parametersMap.get(PICTURE_512)));
     }
 
     private Map<String, String> getParametersMap(List<String> lines) throws ApplicationUploadException {

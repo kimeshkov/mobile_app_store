@@ -1,9 +1,7 @@
 package com.dataart.springtraining.app.service.util.filestore;
 
-import com.google.common.io.ByteSource;
-import com.google.common.io.ByteStreams;
-
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

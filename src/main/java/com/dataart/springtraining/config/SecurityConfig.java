@@ -1,6 +1,7 @@
 package com.dataart.springtraining.config;
 
 import com.dataart.springtraining.config.security.JWTAuthenticationFilter;
+import com.dataart.springtraining.config.security.UnauthorizedEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -57,11 +59,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(new UnauthorizedEntryPoint())
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .addFilterBefore(new JWTAuthenticationFilter(jwtTokenSecret), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 //.antMatchers("/resources/**", "/signup", "/about").permitAll()
                 //.antMatchers("/login", "/static/**").permitAll()
-                .antMatchers("/api/users/**").permitAll()
+                .antMatchers("/api/users/login", "/api/upload/app").permitAll()
                 //.antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

@@ -20,8 +20,8 @@ public class ApplicationUploadRestController {
 
     @RequestMapping(value = "/app", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void uploadApplication(ApplicationData data,
-                                  @RequestParam MultipartFile file) {
-        applicationService.uploadApplication(data, file);
+    public void uploadApplication(ApplicationData data
+                                  /*@RequestParam MultipartFile file*/) {
+        applicationService.uploadApplication(data, null);
     }
 }

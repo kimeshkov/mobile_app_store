@@ -6,6 +6,7 @@ import com.dataart.springtraining.app.model.Role;
 import com.dataart.springtraining.app.model.User;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     @Autowired
     RoleRepository roleRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Override
     public void afterSingletonsInstantiated() {
         createUsers();
@@ -31,7 +34,7 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     private void createUsers() {
         User user = new User();
         user.setUsername("Name");
-        user.setPassword("Pass");
+        user.setPassword(passwordEncoder.encode("Pass"));
         user.setRoles(createRoles("User"));
         usersRepository.save(user);
     }

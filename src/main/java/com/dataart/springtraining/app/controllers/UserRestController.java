@@ -14,6 +14,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.*;
 
 /**
@@ -28,8 +33,8 @@ public class UserRestController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public LoginResponse login(@RequestBody UserLogin userLogin) {
-        Authentication authentication = userService.authenticateUser(userLogin.name, userLogin.password);
+    public LoginResponse login(User user) {
+        Authentication authentication = userService.authenticateUser(user.getUsername(), user.getPassword());
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         LoginResponse response = new LoginResponse();
@@ -55,8 +60,24 @@ public class UserRestController {
     }
 
     private static class UserLogin {
-        public String name;
-        public String password;
+        private String name;
+        private String password;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
     }
 
     private static class LoginResponse {

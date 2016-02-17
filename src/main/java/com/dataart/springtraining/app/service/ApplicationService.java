@@ -1,5 +1,6 @@
 package com.dataart.springtraining.app.service;
 
+import com.dataart.springtraining.app.model.Application;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.UploadResult;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,5 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface ApplicationService {
 
     UploadResult uploadApplication(ApplicationData data, MultipartFile multipartFile);
+
+    Application findApplicationByPackageName(String packageName);
 
 }

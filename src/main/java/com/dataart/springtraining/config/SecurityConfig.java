@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Bean
+    @Bean(name = "jwtTokenSecret")
     public String getJwtTokenSecret() {
         return jwtTokenSecret;
     }

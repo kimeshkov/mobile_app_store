@@ -1,36 +1,34 @@
-angular.module('mainModule', ['ngRoute'])
-    .config(['$routeProvider'], function ($routeProvider) {
+var mainModule = angular.module('mainModule', ['ngRoute']);
 
-        $routeProvider.when('/', {
-            templateUrl: 'partials/home.html',
-            controller: DowloadController
-        });
 
-        $routeProvider.when('/dowload/:appId', {
-            templateUrl: 'partials/download-app.html',
-            controller: DowloadController
-        });
+mainModule.config(['$routeProvider', function ($routeProvider) {
 
-        $routeProvider.otherwise({
-            templateUrl: 'partials/home.html',
-            controller: HomeController
-        });
+    $routeProvider
+        .when('/', {
+            templateUrl: 'static/partials/home.html',
+            controller: 'HomeController',
+            controllerAs: 'homeCtrl'
+        })
+        .when('/download', {
+            templateUrl: 'static/partials/download-app.html',
+            controller: 'DownloadController',
+            controllerAs: 'downloadCtrl'
+        })
+        .otherwise({redirectTo: '/'});
 
-    });
-
-function HomeController($scope, $routeParams, $location, NewsService) {
+}]);
+mainModule.controller('HomeController', function ($scope) {
 
     var homeCtrl = this;
 
     homeCtrl.checkIndex = 200;
+    $scope.scopeIndex = 'scooope';
+});
 
-}
-
-function DowloadController($scope, $routeParams, $location, NewsService) {
-
+mainModule.controller('DownloadController', function ($scope) {
     var downloadCtrl = this;
+});
 
-}
 
 
 

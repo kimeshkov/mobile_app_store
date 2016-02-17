@@ -1,15 +1,13 @@
 package com.dataart.springtraining.config;
 
-import com.dataart.springtraining.app.service.FileSaver;
-import com.dataart.springtraining.app.service.impl.FileSaverImpl;
-import com.dataart.springtraining.app.service.util.filestore.FileStorage;
+import com.dataart.springtraining.app.service.FileStore;
+import com.dataart.springtraining.app.service.impl.FileStoreImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -27,6 +25,11 @@ public class ApplicationConfig {
     @Value("${filestore.root}")
     public String fileStoreRootPath;
 
+    @Bean(name = "fileStoreRootPath")
+    public String getFileStoreRootPath() {
+        return fileStoreRootPath;
+    }
+
     @Bean
     public MultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -37,13 +40,8 @@ public class ApplicationConfig {
     }
 
     @Bean
-    public FileStorage fileStorage() throws IOException {
-        return new FileStorage(fileStoreRootPath);
-    }
-
-    @Bean
-    public FileSaver fileSaver() throws IOException {
-        return new FileSaverImpl(fileStoreRootPath);
+    public FileStore fileStore() throws IOException {
+        return new FileStoreImpl(fileStoreRootPath);
     }
 
     @Bean

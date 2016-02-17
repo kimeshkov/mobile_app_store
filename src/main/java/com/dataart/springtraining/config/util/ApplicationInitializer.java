@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +21,10 @@ import java.util.List;
 @Component
 public class ApplicationInitializer implements SmartInitializingSingleton {
 
+    private Path imagePath = Paths.get("images");
+    private Path filePath = Paths.get("zip_files");
+
+
     @Autowired
     UsersRepository usersRepository;
 
@@ -26,9 +33,37 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private String fileStoreRootPath;
+
     @Override
     public void afterSingletonsInstantiated() {
+        clearFileStore();
         createUsers();
+    }
+
+    private void clearFileStore() {
+        Path root = Paths.get(fileStoreRootPath);
+        Path images = root.resolve(imagePath);
+        Path files = root.resolve(filePath);
+
+        deleteDir(images);
+        deleteDir(files);
+    }
+
+    private void deleteDir(Path images) {
+        try {
+            Files.walkFileTree(images, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    Files.delete(file);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createUsers() {

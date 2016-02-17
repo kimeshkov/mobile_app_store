@@ -4,7 +4,7 @@ import com.dataart.springtraining.app.dao.ApplicationCategoryRepository;
 import com.dataart.springtraining.app.dao.ApplicationRepository;
 import com.dataart.springtraining.app.model.Application;
 import com.dataart.springtraining.app.service.ApplicationService;
-import com.dataart.springtraining.app.service.FileSaver;
+import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.ZipFileValidator;
 import com.dataart.springtraining.app.service.exceptions.ApplicationUploadException;
 import com.dataart.springtraining.app.service.util.ApplicationData;
@@ -33,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ZipFileValidator zipFileValidator;
 
     @Autowired
-    private FileSaver fileSaver;
+    private FileStore fileStore;
 
     @Autowired
     private ApplicationCategoryRepository applicationCategoryRepository;
@@ -53,6 +53,11 @@ public class ApplicationServiceImpl implements ApplicationService {
             result.setErrorMessage(e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public Application findApplicationByPackageName(String packageName) {
+        return applicationRepository.findByPackage(packageName);
     }
 
     private void proccess(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {
@@ -89,13 +94,13 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setCategory(applicationCategoryRepository.findOne(data.getCategoryId()));
 
         if (data.getPicture128().isPresent()) {
-            application.setPicture128(fileSaver.saveImage128(fs.getPath(data.getPicture128().get()), data.getPackageName()));
+            application.setPicture128(fileStore.saveImage128(fs.getPath(data.getPicture128().get()), data.getPackageName()));
         }
         if (data.getPicture512().isPresent()) {
-            application.setPicture512(fileSaver.saveImage512(fs.getPath(data.getPicture512().get()), data.getPackageName()));
+            application.setPicture512(fileStore.saveImage512(fs.getPath(data.getPicture512().get()), data.getPackageName()));
         }
 
-        application.setZipFile(fileSaver.saveZipFile(zipFile, data.getPackageName()));
+        application.setZipFile(fileStore.saveZipFile(zipFile, data.getPackageName()));
 
         applicationRepository.save(application);
     }

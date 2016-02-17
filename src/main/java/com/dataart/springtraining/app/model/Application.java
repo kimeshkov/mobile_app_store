@@ -8,7 +8,10 @@ import java.util.Objects;
  */
 
 @Entity
-@Table(name = "application")
+@Table(
+        name = "application",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"package_name"})
+)
 public class Application {
 
     @Id

@@ -2,6 +2,7 @@ package com.dataart.springtraining.config;
 
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.impl.FileStoreImpl;
+import com.dataart.springtraining.config.security.JWTAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

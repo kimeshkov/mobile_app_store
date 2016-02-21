@@ -1,5 +1,6 @@
 package com.dataart.springtraining.app.service;
 
+import com.dataart.springtraining.app.model.User;
 import org.springframework.security.core.Authentication;
 
 /**
@@ -7,9 +8,9 @@ import org.springframework.security.core.Authentication;
  */
 public interface UserService {
 
-    int createUser(String userName, String password);
+    User createUser(String userName, String password);
 
     String createToken(String userName);
 
-    Authentication authenticateUser(String userName, String password);
+    void authenticateUser(String userName, String password);
 }

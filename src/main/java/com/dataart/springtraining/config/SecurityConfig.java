@@ -64,11 +64,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .addFilterBefore(new JWTAuthenticationFilter(jwtTokenSecret), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JWTAuthenticationFilter(userDetailsService, jwtTokenSecret), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 //.antMatchers("/resources/**", "/signup", "/about").permitAll()
                 //.antMatchers("/login", "/static/**").permitAll()
-                .antMatchers("/api/users/login", "/api/upload/app").permitAll()
+                .antMatchers("/index.jsp", "/api/users/authenticate", "/api/upload/app").permitAll()
                 //.antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated();
 

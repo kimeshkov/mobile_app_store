@@ -1,33 +1,54 @@
-var mainModule = angular.module('mainModule', ['ngRoute']);
+var mainModule = angular.module('storeApp',
+    [
+        'ngRoute',
+        'storeApp.Services',
+        'storeApp.Controllers'
+    ]);
 
 
-mainModule.config(['$routeProvider', function ($routeProvider) {
+mainModule.config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
 
     $routeProvider
         .when('/', {
             templateUrl: 'static/partials/home.html',
-            controller: 'HomeController',
+            controller: 'HomeCtrl',
             controllerAs: 'homeCtrl'
         })
         .when('/download', {
             templateUrl: 'static/partials/download-app.html',
-            controller: 'DownloadController',
+            controller: 'DownloadCtrl',
             controllerAs: 'downloadCtrl'
         })
         .otherwise({redirectTo: '/'});
 
+    /* Registers auth token interceptor, auth token is either passed by header or by query parameter
+     * as soon as there is an authenticated user */
+    $httpProvider.interceptors.push(function ($q, $rootScope, StorageService) {
+            return {
+                'request': function (config) {
+                    var isRestCall = config.url.indexOf('api') == 0;
+
+                    if (isRestCall && StorageService.getToken()) {
+                        config.headers['Authorization'] = 'Bearer ' + StorageService.getToken();
+
+                    }
+                    return config;
+                }
+            };
+        }
+    );
+
 }]);
-mainModule.controller('HomeController', function ($scope) {
 
-    var homeCtrl = this;
-
-    homeCtrl.checkIndex = 200;
-    $scope.scopeIndex = 'scooope';
+mainModule.run(function (StorageService, UserService) {
+    if (StorageService.getToken() !== undefined) {
+        if (StorageService.getUser() == undefined) {
+            StorageService.saveUser(UserService.getCurrentUser())
+        }
+    }
 });
 
-mainModule.controller('DownloadController', function ($scope) {
-    var downloadCtrl = this;
-});
+
 
 
 

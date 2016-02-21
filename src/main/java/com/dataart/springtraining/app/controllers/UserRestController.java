@@ -1,25 +1,19 @@
 package com.dataart.springtraining.app.controllers;
 
-import com.dataart.springtraining.app.model.User;
 import com.dataart.springtraining.app.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.*;
+import javax.ws.rs.WebApplicationException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by mkim on 16/10/2015.
@@ -31,18 +25,41 @@ public class UserRestController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     @ResponseBody
-    public LoginResponse login(User user) {
-        Authentication authentication = userService.authenticateUser(user.getUsername(), user.getPassword());
+    public TokenTransfer authenticate(String username, String password) {
+        return authenticateUser(username, password);
+    }
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        LoginResponse response = new LoginResponse();
-        response.setUserName(userDetails.getUsername());
-        response.setRoles(getRoles(userDetails.getAuthorities()));
-        response.setToken(userService.createToken(userDetails.getUsername()));
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseBody
+    public UserTransfer getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = authentication.getPrincipal();
 
-        return response;
+        if (principal instanceof String && principal.equals("anonymousUser")) {
+            throw new WebApplicationException(401);
+        }
+
+        UserDetails userDetails = (UserDetails) principal;
+
+        return new UserTransfer(userDetails.getUsername(), getRoles(userDetails.getAuthorities()));
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public void createUser(String username, String password) {
+        userService.createUser(username, password);
+    }
+
+    @ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "This username is not found")
+    @ExceptionHandler(AuthenticationException.class)
+    public void exceptionHandler() {
+    }
+
+    private TokenTransfer authenticateUser(String userName, String password) {
+        userService.authenticateUser(userName, password);
+        return new TokenTransfer(userService.createToken(userName));
     }
 
     private List<String> getRoles(Collection<? extends GrantedAuthority> authorities) {
@@ -53,44 +70,11 @@ public class UserRestController {
         return roles;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody User user) {
-        userService.createUser(user.getUsername(), user.getPassword());
-    }
-
-    private static class UserLogin {
-        private String name;
-        private String password;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
-
-    private static class LoginResponse {
-        private String userName;
+    private static class TokenTransfer {
         private String token;
-        private List<String> roles;
 
-        public String getUserName() {
-            return userName;
-        }
-
-        public void setUserName(String userName) {
-            this.userName = userName;
+        public TokenTransfer(String token) {
+            this.token = token;
         }
 
         public String getToken() {
@@ -99,6 +83,24 @@ public class UserRestController {
 
         public void setToken(String token) {
             this.token = token;
+        }
+    }
+
+    private static class UserTransfer {
+        private String name;
+        private List<String> roles;
+
+        public UserTransfer(String name, List<String> roles) {
+            this.name = name;
+            this.roles = roles;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
         }
 
         public List<String> getRoles() {

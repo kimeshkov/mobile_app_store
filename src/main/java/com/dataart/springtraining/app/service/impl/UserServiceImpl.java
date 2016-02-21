@@ -3,6 +3,8 @@ package com.dataart.springtraining.app.service.impl;
 import com.dataart.springtraining.app.dao.UsersRepository;
 import com.dataart.springtraining.app.model.User;
 import com.dataart.springtraining.app.service.UserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public int createUser(String userName, String password) {
+    public User createUser(String userName, String password) {
         if (!isUserNameAvailable(userName)) {
             throw new IllegalArgumentException("The username is not available.");
         }
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         user.setUsername(userName);
         user.setPassword(getEncryptedPassword(password));
-        return usersRepository.save(user).getId();
+        return usersRepository.save(user);
     }
 
     private boolean isUserNameAvailable(String userName) {
@@ -59,13 +61,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Authentication authenticateUser(String userName, String password) {
+    public void authenticateUser(String userName, String password) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userName, password);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        return authentication;
     }
 }

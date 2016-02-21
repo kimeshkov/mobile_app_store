@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="mainModule">
+<html lang="en" ng-app="storeApp">
 
     <head>
 
@@ -19,7 +19,7 @@
 
     </head>
 
-    <body>
+    <body ng-controller="MainCtrl as main">
         <!-- Navigation -->
         <nav class="navbar navbar-fixed-top navbar-default">
             <div class="container">
@@ -27,14 +27,16 @@
                     <a class="navbar-brand" href="#">Spring Course</a>
                 </div>
 
-                <form class="navbar-form navbar-left">
+                <form ng-show="!main.isLoggedIn()" class="navbar-form navbar-left">
+
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
+                        <input type="text" name="username" class="form-control" placeholder="Username" ng-model="username">
+                        <input type="text" name="password" class="form-control" placeholder="Password" ng-model="password">
                     </div>
-                    <button type="submit" class="btn btn-default">Sign in</button>
+                    <button type="submit" class="btn btn-default" ng-click="main.login()">Sign in</button>
                 </form>
 
-                <button type="button" class="btn btn-default navbar-btn navbar-right btn-sign-out">Sign out</button>
+                <button ng-show="main.isLoggedIn()" type="button" class="btn btn-default navbar-btn navbar-right btn-sign-out">Sign out</button>
             </div>
         </nav>
 
@@ -55,18 +57,8 @@
             </footer>
         </div>
 
-        <!-- jQuery -->
-        <script src="static/js/vendor/jquery.js"></script>
-
-        <!-- Angular -->
-        <script src="static/js/vendor/angular.js"></script>
-
-        <script src="static/js/vendor/angular-route.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="static/js/vendor/bootstrap.min.js"></script>
-
-        <script src="static/js/app.js"></script>
+        <script src="static/js/head.load.min.js"></script>
+        <script src="static/js/boot.js"></script>
 
     </body>
 

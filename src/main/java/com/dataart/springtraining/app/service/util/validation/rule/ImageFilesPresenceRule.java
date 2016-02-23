@@ -13,8 +13,8 @@ public class ImageFilesPresenceRule implements ValidationRule {
 
     @Override
     public void validate(ValidationContext context, ApplicationData data) throws ApplicationUploadException {
-        boolean image128NotFound = data.getPicture128().isPresent() && !context.getImageFileNames().contains(data.getPicture128().get());
-        boolean image512NotFound = data.getPicture512().isPresent() && !context.getImageFileNames().contains(data.getPicture512().get());
+        boolean image128NotFound = data.getPicture128() != null && !context.getImageFileNames().contains(data.getPicture128());
+        boolean image512NotFound = data.getPicture512() != null && !context.getImageFileNames().contains(data.getPicture512());
 
         if (image128NotFound || image512NotFound) {
             throw new ApplicationUploadException(UploadError.FILE_STRUCTURE_ERROR.getMessage());

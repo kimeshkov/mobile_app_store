@@ -21,6 +21,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 /**
  * Created by mkim on 17/10/2015.
@@ -57,7 +58,12 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public Application findApplicationByPackageName(String packageName) {
-        return applicationRepository.findByPackage(packageName);
+        return applicationRepository.findByPackageName(packageName);
+    }
+
+    @Override
+    public List<Application> findMostPopular() {
+        return applicationRepository.findFirst5ByOrderByDownloadsDesc();
     }
 
     private void proccess(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {
@@ -93,11 +99,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setDescription(data.getDescription());
         application.setCategory(applicationCategoryRepository.findOne(data.getCategoryId()));
 
-        if (data.getPicture128().isPresent()) {
-            application.setPicture128(fileStore.saveImage128(fs.getPath(data.getPicture128().get()), data.getPackageName()));
+        if (data.getPicture128() != null) {
+            application.setPicture128(fileStore.saveImage128(fs.getPath(data.getPicture128()), data.getPackageName()));
         }
-        if (data.getPicture512().isPresent()) {
-            application.setPicture512(fileStore.saveImage512(fs.getPath(data.getPicture512().get()), data.getPackageName()));
+        if (data.getPicture512() != null) {
+            application.setPicture512(fileStore.saveImage512(fs.getPath(data.getPicture512()), data.getPackageName()));
         }
 
         application.setZipFile(fileStore.saveZipFile(zipFile, data.getPackageName()));

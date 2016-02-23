@@ -41,10 +41,10 @@ public class Application {
     private FileStoreData zipFile;
 
     @Column(name = "downloads")
-    private Integer downloads;
+    private int downloads;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     public Integer getId() {
@@ -103,11 +103,11 @@ public class Application {
         this.zipFile = zipFile;
     }
 
-    public Integer getDownloads() {
+    public int getDownloads() {
         return downloads;
     }
 
-    public void setDownloads(Integer downloads) {
+    public void setDownloads(int downloads) {
         this.downloads = downloads;
     }
 

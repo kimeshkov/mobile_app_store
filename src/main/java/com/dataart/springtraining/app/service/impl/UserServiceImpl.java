@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private boolean isUserNameAvailable(String userName) {
-        return usersRepository.findByUserName(userName) == null;
+        return usersRepository.findByUsername(userName) == null;
     }
 
     private String getEncryptedPassword(String password) {

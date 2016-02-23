@@ -10,7 +10,6 @@ import com.dataart.springtraining.app.service.util.validation.ValidationRule;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Created by mkim on 20/10/2015.
@@ -43,8 +42,8 @@ public class ParametersFormatRule implements ValidationRule {
 
         checkPackageIsUnique(parametersMap.get(PACKAGE));
 
-        data.setPicture128(Optional.ofNullable(parametersMap.get(PICTURE_128)));
-        data.setPicture512(Optional.ofNullable(parametersMap.get(PICTURE_512)));
+        data.setPicture128(parametersMap.get(PICTURE_128));
+        data.setPicture512(parametersMap.get(PICTURE_512));
     }
 
     private Map<String, String> getParametersMap(List<String> lines) throws ApplicationUploadException {
@@ -70,7 +69,7 @@ public class ParametersFormatRule implements ValidationRule {
     }
 
     private void checkPackageIsUnique(String packageName) throws ApplicationUploadException {
-        if (applicationRepository.findByPackage(packageName) != null) {
+        if (applicationRepository.findByPackageName(packageName) != null) {
             throw new ApplicationUploadException(UploadError.NOT_UNIQUE_PACKAGE_NAME.getMessage());
         }
     }

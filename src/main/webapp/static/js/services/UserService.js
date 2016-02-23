@@ -3,7 +3,14 @@ angular.module('storeApp.Services')
     function ($rootScope, $resource, $cookieStore, StorageService) {
         var service = this;
 
-        var userResource = $resource('api/users/:action', {},
+        var hasRole = function (role, user) {
+            if (user == undefined) {
+                return false;
+            }
+            return user.roles.indexOf(role) != -1;
+        };
+
+        var UserResource = $resource('api/users/:action', {},
             {
                 authenticate: {
                     method: 'POST',
@@ -14,10 +21,10 @@ angular.module('storeApp.Services')
         );
 
         service.login = function (username, password) {
-            userResource.authenticate($.param({username: username, password: password}), function (tokenTransfer) {
+            UserResource.authenticate($.param({username: username, password: password}), function (tokenTransfer) {
                 StorageService.saveToken(tokenTransfer.token);
 
-                userResource.get(function (user) {
+                UserResource.get(function (user) {
                     StorageService.saveUser(user);
                 });
             });
@@ -28,12 +35,13 @@ angular.module('storeApp.Services')
         };
 
         service.getCurrentUser = function () {
-            var user = StorageService.getUser();
+            UserResource.get(function (user) {
+                return StorageService.saveUser(user)
+            });
+        };
 
-            if (!user && StorageService.getToken()) {
-                user = userResource.get();
-            }
-            return user;
+        service.isAdmin = function () {
+            return hasRole("Admin", StorageService.getUser());
         }
 
     });

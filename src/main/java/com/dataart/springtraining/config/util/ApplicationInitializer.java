@@ -1,7 +1,9 @@
 package com.dataart.springtraining.config.util;
 
+import com.dataart.springtraining.app.dao.ApplicationCategoryRepository;
 import com.dataart.springtraining.app.dao.RoleRepository;
 import com.dataart.springtraining.app.dao.UsersRepository;
+import com.dataart.springtraining.app.model.Category;
 import com.dataart.springtraining.app.model.Role;
 import com.dataart.springtraining.app.model.User;
 import org.springframework.beans.factory.SmartInitializingSingleton;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +35,9 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     private RoleRepository roleRepository;
 
     @Autowired
+    private ApplicationCategoryRepository applicationCategoryRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -41,6 +47,7 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     public void afterSingletonsInstantiated() {
         clearFileStore();
         createUsers();
+        createCategories("Games", "Multimedia");
     }
 
     private void clearFileStore() {
@@ -51,6 +58,7 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
         deleteDir(images);
         deleteDir(files);
     }
+
 
     private void deleteDir(Path images) {
         try {
@@ -67,11 +75,33 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     }
 
     private void createUsers() {
+        List<Role> roles = createRoles("User", "Admin");
+
         User user = new User();
         user.setUsername("Name");
         user.setPassword(passwordEncoder.encode("Pass"));
-        user.setRoles(createRoles("User"));
-        usersRepository.save(user);
+        user.setRoles(roles.subList(0, 1));
+
+        User admin = new User();
+        admin.setUsername("Admin");
+        admin.setPassword(passwordEncoder.encode("Admin"));
+        admin.setRoles(roles);
+
+        List<User> users = new ArrayList<>();
+        users.add(user);
+        users.add(admin);
+
+        usersRepository.save(users);
+    }
+
+    private void createCategories(String... categoryNames) {
+        List<Category> categories = new ArrayList<>();
+        for(String categoryName : categoryNames) {
+            Category category = new Category();
+            category.setCategoryName(categoryName);
+            categories.add(category);
+        }
+        applicationCategoryRepository.save(categories);
     }
 
     private List<Role> createRoles(String... roles) {

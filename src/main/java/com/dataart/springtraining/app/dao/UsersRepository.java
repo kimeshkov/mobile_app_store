@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
  */
 public interface UsersRepository extends CrudRepository<User, Integer> {
 
-    @Query("select u from User u where username = :userName")
-    User findByUserName(@Param("userName") String userName);
+    //@Query("select u from User u where username = :userName")
+    User findByUsername(String username);
 
 }

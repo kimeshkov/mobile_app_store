@@ -12,6 +12,8 @@ angular.module('storeApp.Services')
         service.saveToken = function (token) {
             $rootScope.token = token;
             $cookieStore.put(tokenKey, token);
+
+            return token;
         };
 
 
@@ -22,6 +24,8 @@ angular.module('storeApp.Services')
         service.saveUser = function (user) {
             $rootScope.user = user;
             $cookieStore.put(userKey, user);
+
+            return user;
         };
 
     });

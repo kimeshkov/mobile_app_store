@@ -66,13 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new JWTAuthenticationFilter(userDetailsService, jwtTokenSecret), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                //.antMatchers("/resources/**", "/signup", "/about").permitAll()
-                //.antMatchers("/login", "/static/**").permitAll()
-                .antMatchers("/index.jsp", "/api/users/authenticate", "/api/upload/app").permitAll()
-                //.antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/index.jsp", "/api/users/authenticate", "/api/app/upload", "/api/app/popular").permitAll()
                 .anyRequest().authenticated();
-
-
 
     }
 

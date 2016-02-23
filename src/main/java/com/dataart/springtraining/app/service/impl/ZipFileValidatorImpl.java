@@ -1,5 +1,6 @@
 package com.dataart.springtraining.app.service.impl;
 
+import com.dataart.springtraining.app.dao.ApplicationCategoryRepository;
 import com.dataart.springtraining.app.dao.ApplicationRepository;
 import com.dataart.springtraining.app.service.ZipFileValidator;
 import com.dataart.springtraining.app.service.exceptions.ApplicationUploadException;
@@ -29,6 +30,9 @@ public class ZipFileValidatorImpl implements ZipFileValidator {
     @Autowired
     private ApplicationRepository applicationRepository;
 
+    @Autowired
+    private ApplicationCategoryRepository applicationCategoryRepository;
+
     @Override
     public void validate(Path zipFile, ApplicationData validationData) throws ApplicationUploadException {
         try {
@@ -51,6 +55,7 @@ public class ZipFileValidatorImpl implements ZipFileValidator {
         List<ValidationRule> rules = new ArrayList<>();
         rules.add(new EntryFilesCountRule());
         rules.add(new EntryFilesTypeRule());
+        rules.add(new CategoryValidRule(applicationCategoryRepository));
         rules.add(new TextFilePresenceAndUniquenessRule());
         rules.add(new ParametersFormatRule(applicationRepository));
         rules.add(new ImageFilesPresenceRule());

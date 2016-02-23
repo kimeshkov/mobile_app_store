@@ -1,19 +1,17 @@
 package com.dataart.springtraining.app.service.util;
 
 
-import java.util.Optional;
-
 /**
  * Created by mkim on 29/10/2015.
  */
 public class ApplicationData {
     private String description;
-    private int categoryId;
+    private Integer categoryId;
 
     private String name;
     private String packageName;
-    private Optional<String> picture128 = Optional.empty();
-    private Optional<String> picture512 = Optional.empty();
+    private String picture128;
+    private String picture512;
 
     public String getDescription() {
         return description;
@@ -23,11 +21,11 @@ public class ApplicationData {
         this.description = description;
     }
 
-    public int getCategoryId() {
+    public Integer getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(int categoryId) {
+    public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
 
@@ -47,19 +45,19 @@ public class ApplicationData {
         this.packageName = packageName;
     }
 
-    public Optional<String> getPicture128() {
+    public String getPicture128() {
         return picture128;
     }
 
-    public void setPicture128(Optional<String> picture128) {
+    public void setPicture128(String picture128) {
         this.picture128 = picture128;
     }
 
-    public Optional<String> getPicture512() {
+    public String getPicture512() {
         return picture512;
     }
 
-    public void setPicture512(Optional<String> picture512) {
+    public void setPicture512(String picture512) {
         this.picture512 = picture512;
     }
 }

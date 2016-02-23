@@ -1,9 +1,11 @@
 package com.dataart.springtraining.app.controllers;
 
 import com.dataart.springtraining.app.model.Application;
+import com.dataart.springtraining.app.model.FileStoreData;
 import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.util.ApplicationData;
+import com.dataart.springtraining.app.service.util.ImageSize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mkim on 17/10/2015.
@@ -22,6 +26,8 @@ import java.io.IOException;
 @RequestMapping("/api/app")
 public class ApplicationRestController {
 
+    private static final String IMAGE_URL_TEMPLATE = "api/app/image/%s/%s";
+    private static final String DEFAULT_IMAGE_URL_TEMPLATE = "static/%s.png";
     @Autowired
     private ApplicationService applicationService;
 
@@ -34,11 +40,44 @@ public class ApplicationRestController {
         applicationService.uploadApplication(data, file);
     }
 
+    @RequestMapping(value = "/popular", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ApplicationData> getPopular() {
+        List<ApplicationData> response = new ArrayList<>();
+        for (Application application : applicationService.findMostPopular()) {
+            response.add(getApplicationData(application));
+        }
+        return response;
+    }
+
+    private ApplicationData getApplicationData(Application application) {
+        ApplicationData applicationData = new ApplicationData();
+
+        applicationData.setDescription(application.getDescription());
+        applicationData.setCategoryId(application.getCategory().getId());
+        applicationData.setName(application.getName());
+        applicationData.setPackageName(application.getPackageName());
+        applicationData.setPicture128(getImageUrl(application, ImageSize.IMAGE_128));
+        applicationData.setPicture512(getImageUrl(application, ImageSize.IMAGE_512));
+
+        return applicationData;
+    }
+
+    private String getImageUrl(Application app, ImageSize size) {
+        String url;
+        FileStoreData image = ImageSize.IMAGE_128.equals(size) ? app.getPicture128() : app.getPicture512();
+        if(image != null) {
+            url = String.format(IMAGE_URL_TEMPLATE, app.getPackageName(), size.getSize());
+        } else {
+            url = String.format(DEFAULT_IMAGE_URL_TEMPLATE, size.getSize());
+        }
+        return url;
+    }
+
     @RequestMapping("/image/{packageName}/{size}")
     @ResponseBody
-    public HttpEntity<byte[]> getPhoto(@PathVariable String packageName,
+    public HttpEntity<byte[]> getImage(@PathVariable String packageName,
                                        @PathVariable int size) throws IOException {
-        //byte[] image = org.apache.commons.io.FileUtils.readFileToByteArray(new File([YOUR PATH] + File.separator + personId + ".png"));
         Application application = applicationService.findApplicationByPackageName(packageName);
 
         byte[] image = fileStore.getFileAsByteArray(application.getPicture512());

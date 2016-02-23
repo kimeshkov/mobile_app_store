@@ -7,7 +7,8 @@ public enum UploadError {
     IO_ERROR("Error while reading file"),
     TEXT_FILE_FORMAT_ERROR("Text file has wrong format"),
     NOT_UNIQUE_PACKAGE_NAME("Not unique package name"),
-    FILE_STRUCTURE_ERROR("Bad file structure");
+    FILE_STRUCTURE_ERROR("Bad file structure"),
+    CATEGORY_IS_NOT_VALID("Category is not exist or empty");
 
     private final String message;
 

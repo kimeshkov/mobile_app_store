@@ -99,11 +99,11 @@ public class ApplicationServiceImpl implements ApplicationService {
         application.setDescription(data.getDescription());
         application.setCategory(applicationCategoryRepository.findOne(data.getCategoryId()));
 
-        if (data.getPicture128() != null) {
-            application.setPicture128(fileStore.saveImage128(fs.getPath(data.getPicture128()), data.getPackageName()));
+        if (data.getImage128() != null) {
+            application.setPicture128(fileStore.saveImage128(fs.getPath(data.getImage128()), data.getPackageName()));
         }
-        if (data.getPicture512() != null) {
-            application.setPicture512(fileStore.saveImage512(fs.getPath(data.getPicture512()), data.getPackageName()));
+        if (data.getImage512() != null) {
+            application.setPicture512(fileStore.saveImage512(fs.getPath(data.getImage512()), data.getPackageName()));
         }
 
         application.setZipFile(fileStore.saveZipFile(zipFile, data.getPackageName()));

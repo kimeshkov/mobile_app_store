@@ -57,8 +57,8 @@ public class ApplicationRestController {
         applicationData.setCategoryId(application.getCategory().getId());
         applicationData.setName(application.getName());
         applicationData.setPackageName(application.getPackageName());
-        applicationData.setPicture128(getImageUrl(application, ImageSize.IMAGE_128));
-        applicationData.setPicture512(getImageUrl(application, ImageSize.IMAGE_512));
+        applicationData.setImage128(getImageUrl(application, ImageSize.IMAGE_128));
+        applicationData.setImage512(getImageUrl(application, ImageSize.IMAGE_512));
 
         return applicationData;
     }

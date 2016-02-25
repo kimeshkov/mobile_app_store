@@ -10,8 +10,8 @@ public class ApplicationData {
 
     private String name;
     private String packageName;
-    private String picture128;
-    private String picture512;
+    private String image128;
+    private String image512;
 
     public String getDescription() {
         return description;
@@ -45,19 +45,19 @@ public class ApplicationData {
         this.packageName = packageName;
     }
 
-    public String getPicture128() {
-        return picture128;
+    public String getImage128() {
+        return image128;
     }
 
-    public void setPicture128(String picture128) {
-        this.picture128 = picture128;
+    public void setImage128(String image128) {
+        this.image128 = image128;
     }
 
-    public String getPicture512() {
-        return picture512;
+    public String getImage512() {
+        return image512;
     }
 
-    public void setPicture512(String picture512) {
-        this.picture512 = picture512;
+    public void setImage512(String image512) {
+        this.image512 = image512;
     }
 }

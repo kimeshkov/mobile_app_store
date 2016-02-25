@@ -1,5 +1,5 @@
 angular.module('storeApp.Controllers')
-    .controller('MainCtrl', function ($scope, $rootScope, StorageService, UserService) {
+    .controller('MainCtrl', function ($scope, $location, $rootScope, StorageService, UserService) {
         var main = this;
 
         main.isLoggedIn = function () {
@@ -16,8 +16,8 @@ angular.module('storeApp.Controllers')
         };
 
         main.logout = function () {
-            UserService.logout();
-            //main.currentUser = null;
+            UserService.deleteUserAndToken();
+            $location.path("/");
         };
     });
 

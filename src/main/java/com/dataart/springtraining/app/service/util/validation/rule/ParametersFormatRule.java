@@ -42,8 +42,8 @@ public class ParametersFormatRule implements ValidationRule {
 
         checkPackageIsUnique(parametersMap.get(PACKAGE));
 
-        data.setPicture128(parametersMap.get(PICTURE_128));
-        data.setPicture512(parametersMap.get(PICTURE_512));
+        data.setImage128(parametersMap.get(PICTURE_128));
+        data.setImage512(parametersMap.get(PICTURE_512));
     }
 
     private Map<String, String> getParametersMap(List<String> lines) throws ApplicationUploadException {

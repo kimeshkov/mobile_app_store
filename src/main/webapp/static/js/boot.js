@@ -8,6 +8,7 @@ head.load(
     {file: 'static/js/services/Services.js'},
     {file: 'static/js/services/UserService.js'},
     {file: 'static/js/services/StorageService.js'},
+    {file: 'static/js/services/ApplicationService.js'},
     {file: 'static/js/controllers/Controllers.js'},
     {file: 'static/js/controllers/MainController.js'},
     {file: 'static/js/controllers/HomeController.js'},

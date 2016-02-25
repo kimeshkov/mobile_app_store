@@ -1,6 +1,6 @@
 angular.module('storeApp.Services')
     .service('UserService',
-    function ($rootScope, $resource, $cookieStore, StorageService) {
+    function ($rootScope, $resource, StorageService) {
         var service = this;
 
         var hasRole = function (role, user) {
@@ -30,8 +30,9 @@ angular.module('storeApp.Services')
             });
         };
 
-        service.logout = function () {
-
+        service.deleteUserAndToken = function () {
+            StorageService.deleteUser();
+            StorageService.deleteToken();
         };
 
         service.getCurrentUser = function () {

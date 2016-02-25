@@ -39,13 +39,15 @@
                         <button type="submit" class="btn btn-default" ng-click="main.login()">Sign in</button>
                     </form>
 
-                    <ul class="nav navbar-nav navbar-right">
-                       <li>
-                           <button ng-show="main.isAdmin()" type="button" class="btn btn-default navbar-btn btn-sign-out">Upload</button>
-                       </li>
+                    <ul class="nav navbar-nav navbar-right btn-group">
+                        <li ng-show="main.isAdmin()">
+                            <a href="upload">Upload</a>
+                        </li>
 
                         <li>
-                            <button ng-show="main.isLoggedIn()" type="button" class="btn btn-default navbar-btn btn-sign-out">Sign out</button>
+                            <button ng-show="main.isLoggedIn()" ng-click="main.logout()" type="button"
+                                    class="btn btn-default navbar-btn btn-sign-out">Sign out
+                            </button>
                         </li>
                     </ul>
 

@@ -14,6 +14,11 @@ mainModule.config(['$routeProvider', '$httpProvider', function ($routeProvider, 
             controller: 'HomeCtrl',
             controllerAs: 'homeCtrl'
         })
+        .when('/upload', {
+            templateUrl: 'static/partials/upload-app.html',
+            controller: 'UploadCtrl',
+            controllerAs: 'uploadCtrl'
+        })
         .when('/download', {
             templateUrl: 'static/partials/download-app.html',
             controller: 'DownloadCtrl',

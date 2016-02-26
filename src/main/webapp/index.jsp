@@ -24,7 +24,7 @@
         <nav class="navbar navbar-fixed-top navbar-default">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Spring Course</a>
+                    <a class="navbar-brand" href="#/">Spring Course</a>
                 </div>
 
                 <div class="collapse navbar-collapse">
@@ -41,7 +41,7 @@
 
                     <ul class="nav navbar-nav navbar-right btn-group">
                         <li ng-show="main.isAdmin()">
-                            <a href="upload">Upload</a>
+                            <a href="#/upload">Upload</a>
                         </li>
 
                         <li>

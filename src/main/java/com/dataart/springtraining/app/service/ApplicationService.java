@@ -17,7 +17,9 @@ public interface ApplicationService {
 
     Application getByPackageName(String packageName);
 
-    List<Application> getByCategoryId(Integer categoryId);
+    Long getCountByCategoryId(Integer categoryId);
+
+    List<Application> getByCategoryId(Integer categoryId, Integer page, Integer size, String sortBy);
 
     List<Application> getMostPopular();
 

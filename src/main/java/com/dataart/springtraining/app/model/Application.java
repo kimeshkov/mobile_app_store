@@ -1,6 +1,7 @@
 package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -42,6 +43,9 @@ public class Application {
 
     @Column(name = "downloads")
     private int downloads;
+
+    @Column(name = "creation_date")
+    private Date creationDate;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -117,6 +121,14 @@ public class Application {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override

@@ -15,8 +15,11 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,6 +28,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -33,6 +37,9 @@ import java.util.List;
 
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
+
+    private static final String DOWNLOADS_FIELD = "downloads";
+    private static final String CREATION_DATE_FIELD = "creationDate";
 
     @Autowired
     private ZipFileValidator zipFileValidator;
@@ -67,8 +74,25 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getByCategoryId(Integer categoryId) {
-        return applicationRepository.findByCategoryId(categoryId);
+    public Long getCountByCategoryId(Integer categoryId) {
+        return applicationRepository.countByCategoryId(categoryId);
+    }
+
+    @Override
+    public List<Application> getByCategoryId(Integer categoryId, Integer page, Integer size, String sortBy) {
+        PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, getSortField(sortBy));
+        return applicationRepository.findByCategoryId(categoryId, pageRequest);
+    }
+
+    private String getSortField(String sortBy) {
+        boolean validName = DOWNLOADS_FIELD.equalsIgnoreCase(sortBy)
+                || CREATION_DATE_FIELD.equalsIgnoreCase(sortBy);
+
+        if (!StringUtils.isEmpty(sortBy) && validName) {
+            return sortBy.toLowerCase();
+        } else {
+            return DOWNLOADS_FIELD;
+        }
     }
 
     @Override
@@ -127,7 +151,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         application.setZipFile(fileStore.saveZipFile(zipFile, data.getPackageName()));
-
+        application.setCreationDate(Calendar.getInstance().getTime());
         applicationRepository.save(application);
     }
 

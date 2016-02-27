@@ -4,6 +4,21 @@ angular.module('storeApp.Controllers')
 
         var selectedCategory;
 
+        var pagination = {page: 0, size: 2};
+
+        var resetPagination = function (categoryId) {
+            ApplicationService.getCountByCategory(categoryId, function (count) {
+                $scope.pages = new Array(Math.ceil(count/pagination.size));
+            });
+            pagination.page = 0;
+        };
+
+        var displayApps = function () {
+            ApplicationService.getByCategory(selectedCategory.id, pagination, function (apps) {
+                $scope.displayedApps = apps;
+            })
+        };
+
         $scope.displayedApps = [];
 
         ApplicationService.getPopular(function (apps) {
@@ -13,11 +28,8 @@ angular.module('storeApp.Controllers')
         ApplicationService.getCategories(function (categories) {
             $scope.categories = categories;
             selectedCategory = categories[0];
-
-            ApplicationService.getByCategory(selectedCategory.id, function (apps) {
-                $scope.displayedApps = apps;
-            })
-
+            resetPagination(selectedCategory.id);
+            displayApps();
         });
 
         $scope.isSelected = function (category) {
@@ -26,10 +38,17 @@ angular.module('storeApp.Controllers')
 
         $scope.selectCategory = function (category) {
             selectedCategory = category;
+            resetPagination(category.id);
+            displayApps();
+        };
 
-            ApplicationService.getByCategory(selectedCategory.id, function (apps) {
-                $scope.displayedApps = apps;
-            })
+        $scope.isCurrentPage = function (page) {
+            return pagination.page == page;
+        };
+
+        $scope.pageClick = function (page) {
+            pagination.page = page;
+            displayApps();
         }
 
     });

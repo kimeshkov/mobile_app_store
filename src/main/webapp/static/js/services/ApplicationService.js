@@ -1,7 +1,7 @@
 angular.module('storeApp.Services')
     .service('ApplicationService', function ($resource, $location) {
         var service = this;
-        var appResource = $resource('api/app/:action/:categoryId', {},
+        var appResource = $resource('api/app/:action/:categoryId/:page/:size/:sortBy', {},
             {
                 popular: {
                     method: 'GET',
@@ -16,7 +16,7 @@ angular.module('storeApp.Services')
                     transformRequest: []
                 },
 
-                categories : {
+                categories: {
                     method: 'GET',
                     isArray: true,
                     params: {'action': 'categories'}
@@ -42,14 +42,35 @@ angular.module('storeApp.Services')
             });
         };
 
-        service.getByCategory = function (categoryId, callback) {
-            appResource.query({action: 'category', categoryId: categoryId}, function (apps) {
-                $.each(apps, function (i, app) {
-                    app.image128 = domainUrl + app.image128;
-                    app.image512 = domainUrl + app.image512;
-                });
-                callback(apps);
-            })
+        service.getCountByCategory = function (categoryId, callback) {
+            appResource.get(
+                {
+                    action: 'category',
+                    categoryId: categoryId
+                },
+
+                function (countResponse) {
+                    callback(countResponse.count);
+                })
+        };
+
+        service.getByCategory = function (categoryId, pagination, callback) {
+            appResource.query(
+                {
+                    action: 'category',
+                    categoryId: categoryId,
+                    page: pagination.page,
+                    size: pagination.size,
+                    sortBy: pagination.sortBy ? pagination.sortBy : 'none'
+                },
+
+                function (apps) {
+                    $.each(apps, function (i, app) {
+                        app.image128 = domainUrl + app.image128;
+                        app.image512 = domainUrl + app.image512;
+                    });
+                    callback(apps);
+                })
         };
 
         service.upload = function (name, description, categoryId, file) {

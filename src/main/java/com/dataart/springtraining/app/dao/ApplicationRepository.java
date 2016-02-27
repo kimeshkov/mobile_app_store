@@ -1,6 +1,8 @@
 package com.dataart.springtraining.app.dao;
 
 import com.dataart.springtraining.app.model.Application;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
 
     List<Application> findFirst5ByOrderByDownloadsDesc();
 
-    List<Application> findByCategoryId(Integer categoryId);
+    Long countByCategoryId(Integer categoryId);
+
+    List<Application> findByCategoryId(Integer categoryId, Pageable pageable);
 
 }

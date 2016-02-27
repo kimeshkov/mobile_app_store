@@ -7,6 +7,8 @@ import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.ImageSize;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -67,9 +69,18 @@ public class ApplicationRestController {
 
     @RequestMapping(value = "/category/{categoryId}", method = RequestMethod.GET)
     @ResponseBody
-    public List<ApplicationData> getByCategory(@PathVariable Integer categoryId) {
+    public CountResponse getCountByCategory(@PathVariable Integer categoryId) {
+        return new CountResponse(applicationService.getCountByCategoryId(categoryId));
+    }
+
+    @RequestMapping(value = "/category/{categoryId}/{page}/{size}/{sortBy}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ApplicationData> getByCategory(@PathVariable Integer categoryId,
+                                               @PathVariable Integer page,
+                                               @PathVariable Integer size,
+                                               @PathVariable String sortBy) {
         List<ApplicationData> response = new ArrayList<>();
-        for (Application application : applicationService.getByCategoryId(categoryId)) {
+        for (Application application : applicationService.getByCategoryId(categoryId, page, size, sortBy)) {
             response.add(getApplicationData(application));
         }
         return response;
@@ -117,5 +128,17 @@ public class ApplicationRestController {
         headers.setContentType(MediaType.IMAGE_PNG);
         headers.setContentLength(image.length);
         return new HttpEntity<>(image, headers);
+    }
+
+    private static class CountResponse {
+        private Long count;
+
+        public CountResponse(Long count) {
+            this.count = count;
+        }
+
+        public Long getCount() {
+            return count;
+        }
     }
 }

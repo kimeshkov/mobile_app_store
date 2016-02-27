@@ -8,6 +8,7 @@ import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.ImageSize;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,6 +42,12 @@ public class ApplicationRestController {
     @ResponseStatus(HttpStatus.CREATED)
     public void uploadApplication(ApplicationData data, @RequestParam MultipartFile file) {
         applicationService.uploadApplication(data, file);
+    }
+
+    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Category> downloadApplication() {
+        return Collections.emptyList();
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
@@ -74,7 +82,7 @@ public class ApplicationRestController {
     private String getImageUrl(Application app, ImageSize size) {
         String url;
         FileStoreData image = ImageSize.IMAGE_128.equals(size) ? app.getPicture128() : app.getPicture512();
-        if(image != null) {
+        if (image != null) {
             url = String.format(IMAGE_URL_TEMPLATE, app.getPackageName(), size.getSize());
         } else {
             url = String.format(DEFAULT_IMAGE_URL_TEMPLATE, size.getSize());

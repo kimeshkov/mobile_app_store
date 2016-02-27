@@ -13,6 +13,8 @@ import com.dataart.springtraining.app.service.util.UploadError;
 import com.dataart.springtraining.app.service.util.UploadResult;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,10 +48,11 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "popular", allEntries = true)
     public UploadResult uploadApplication(ApplicationData data, MultipartFile multipartFile) {
         UploadResult result = new UploadResult();
         try {
-            proccess(data, multipartFile);
+            process(data, multipartFile);
             result.setSuccess(true);
         } catch (ApplicationUploadException e) {
             result.setSuccess(false);
@@ -64,6 +67,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Cacheable("popular")
     public List<Application> getMostPopular() {
         return applicationRepository.findFirst5ByOrderByDownloadsDesc();
     }
@@ -77,7 +81,7 @@ public class ApplicationServiceImpl implements ApplicationService {
         return categories;
     }
 
-    private void proccess(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {
+    private void process(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {
         try {
             Path applicationFile = convertMultipartFile(multipartFile);
 

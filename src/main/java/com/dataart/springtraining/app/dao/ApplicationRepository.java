@@ -13,4 +13,7 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
     Application findByPackageName(String packageName);
 
     List<Application> findFirst5ByOrderByDownloadsDesc();
+
+    List<Application> findByCategoryId(Integer categoryId);
+
 }

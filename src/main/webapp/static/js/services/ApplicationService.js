@@ -1,7 +1,7 @@
 angular.module('storeApp.Services')
     .service('ApplicationService', function ($resource, $location) {
         var service = this;
-        var appResource = $resource('api/app/:action', {},
+        var appResource = $resource('api/app/:action/:categoryId', {},
             {
                 popular: {
                     method: 'GET',
@@ -40,6 +40,16 @@ angular.module('storeApp.Services')
             appResource.categories().$promise.then(function (categories) {
                 callback(categories);
             });
+        };
+
+        service.getByCategory = function (categoryId, callback) {
+            appResource.query({action: 'category', categoryId: categoryId}, function (apps) {
+                $.each(apps, function (i, app) {
+                    app.image128 = domainUrl + app.image128;
+                    app.image512 = domainUrl + app.image512;
+                });
+                callback(apps);
+            })
         };
 
         service.upload = function (name, description, categoryId, file) {

@@ -13,29 +13,29 @@
         <p class="lead">Categories</p>
 
         <div class="list-group">
-            <a href="#" class="list-group-item">Category 1</a>
-            <a href="#" class="list-group-item">Category 2</a>
-            <a href="#" class="list-group-item">Category 3</a>
+            <a href="#/"
+               ng-repeat="category in categories"
+               ng-class="isSelected(category) ? 'active' :'' "
+               ng-click="selectCategory(category)"
+               class="list-group-item">{{category.categoryName}}</a>
         </div>
     </div>
 
     <div class="col-md-9">
-        <div class="row app-row">
+        <div class="row app-row" ng-repeat="app in displayedApps">
             <div class="col-md-12">
 
                 <div class="media">
                     <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="http://placehold.it/128x128" alt="...">
+                        <a href="#/">
+                            <img class="media-object" ng-src="{{app.image128}}" alt="...">
                         </a>
                     </div>
 
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="#">First Product</a></h4>
+                        <h4 class="media-heading"><a href="#/">{{app.name}}</a></h4>
 
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
-                        commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
-                        nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                        {{app.description}}
 
                         <div class="ratings pull-button">
                             <p class="pull-right">15 reviews</p>
@@ -52,39 +52,18 @@
                 </div>
             </div>
         </div>
-
-        <div class="row app-row">
-            <div class="col-md-12">
-
-                <div class="media">
-                    <div class="media-left">
-                        <a href="#">
-                            <img class="media-object" src="http://placehold.it/128x128" alt="...">
-                        </a>
-                    </div>
-
-                    <div class="media-body">
-                        <h4 class="media-heading"><a href="#">First Product</a></h4>
-
-                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin
-                        commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum
-                        nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-
-                        <div class="ratings pull-button">
-                            <p class="pull-right">15 reviews</p>
-
-                            <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <nav ng-show="displayedApps.length > 0">
+            <ul class="pagination">
+                <li class="disabled">
+                  <span>
+                    <span aria-hidden="true">&laquo;</span>
+                  </span>
+                </li>
+                <li class="active">
+                    <span>1 <span class="sr-only">(current)</span></span>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 

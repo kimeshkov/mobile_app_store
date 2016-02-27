@@ -62,8 +62,13 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application getApplicationByPackageName(String packageName) {
+    public Application getByPackageName(String packageName) {
         return applicationRepository.findByPackageName(packageName);
+    }
+
+    @Override
+    public List<Application> getByCategoryId(Integer categoryId) {
+        return applicationRepository.findByCategoryId(categoryId);
     }
 
     @Override

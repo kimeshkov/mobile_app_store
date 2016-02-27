@@ -8,7 +8,6 @@ import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.ImageSize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -66,6 +65,16 @@ public class ApplicationRestController {
         return response;
     }
 
+    @RequestMapping(value = "/category/{categoryId}", method = RequestMethod.GET)
+    @ResponseBody
+    public List<ApplicationData> getByCategory(@PathVariable Integer categoryId) {
+        List<ApplicationData> response = new ArrayList<>();
+        for (Application application : applicationService.getByCategoryId(categoryId)) {
+            response.add(getApplicationData(application));
+        }
+        return response;
+    }
+
     private ApplicationData getApplicationData(Application application) {
         ApplicationData applicationData = new ApplicationData();
 
@@ -94,9 +103,15 @@ public class ApplicationRestController {
     @ResponseBody
     public HttpEntity<byte[]> getImage(@PathVariable String packageName,
                                        @PathVariable int size) throws IOException {
-        Application application = applicationService.getApplicationByPackageName(packageName);
+        Application application = applicationService.getByPackageName(packageName);
 
-        byte[] image = fileStore.getFileAsByteArray(application.getPicture512());
+        byte[] image;
+
+        if (ImageSize.IMAGE_128.getSize() == size) {
+            image = fileStore.getFileAsByteArray(application.getPicture128());
+        } else {
+            image = fileStore.getFileAsByteArray(application.getPicture512());
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.IMAGE_PNG);

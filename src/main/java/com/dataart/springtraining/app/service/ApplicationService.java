@@ -15,7 +15,9 @@ public interface ApplicationService {
 
     UploadResult uploadApplication(ApplicationData data, MultipartFile multipartFile);
 
-    Application getApplicationByPackageName(String packageName);
+    Application getByPackageName(String packageName);
+
+    List<Application> getByCategoryId(Integer categoryId);
 
     List<Application> getMostPopular();
 

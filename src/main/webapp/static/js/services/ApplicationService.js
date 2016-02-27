@@ -7,6 +7,19 @@ angular.module('storeApp.Services')
                     method: 'GET',
                     isArray: true,
                     params: {'action': 'popular'}
+                },
+
+                upload: {
+                    method: 'POST',
+                    params: {'action': 'upload'},
+                    headers: {'Content-Type': undefined},
+                    transformRequest: []
+                },
+
+                categories : {
+                    method: 'GET',
+                    isArray: true,
+                    params: {'action': 'categories'}
                 }
             }
         );
@@ -20,6 +33,25 @@ angular.module('storeApp.Services')
                     app.image512 = domainUrl + app.image512;
                 });
                 callback(apps);
+            });
+        };
+
+        service.getCategories = function (callback) {
+            appResource.categories().$promise.then(function (categories) {
+                callback(categories);
+            });
+        };
+
+        service.upload = function (name, description, categoryId, file) {
+            var data = new FormData();
+            data.append('name', name);
+            data.append('description', description);
+            data.append('categoryId', categoryId);
+            data.append('file', file);
+
+            appResource.upload({}, data, function (value, responseHeaders) {
+                console.log(value);
+                console.log(responseHeaders);
             });
         }
     });

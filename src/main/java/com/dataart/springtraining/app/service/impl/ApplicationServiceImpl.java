@@ -3,6 +3,7 @@ package com.dataart.springtraining.app.service.impl;
 import com.dataart.springtraining.app.dao.ApplicationCategoryRepository;
 import com.dataart.springtraining.app.dao.ApplicationRepository;
 import com.dataart.springtraining.app.model.Application;
+import com.dataart.springtraining.app.model.Category;
 import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.ZipFileValidator;
@@ -21,6 +22,7 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,13 +59,22 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public Application findApplicationByPackageName(String packageName) {
+    public Application getApplicationByPackageName(String packageName) {
         return applicationRepository.findByPackageName(packageName);
     }
 
     @Override
-    public List<Application> findMostPopular() {
+    public List<Application> getMostPopular() {
         return applicationRepository.findFirst5ByOrderByDownloadsDesc();
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        List<Category> categories = new ArrayList<>();
+        for (Category category : applicationCategoryRepository.findAll()) {
+            categories.add(category);
+        }
+        return categories;
     }
 
     private void proccess(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {

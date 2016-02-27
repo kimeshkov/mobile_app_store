@@ -1,6 +1,7 @@
 package com.dataart.springtraining.app.service;
 
 import com.dataart.springtraining.app.model.Application;
+import com.dataart.springtraining.app.model.Category;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.UploadResult;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +15,10 @@ public interface ApplicationService {
 
     UploadResult uploadApplication(ApplicationData data, MultipartFile multipartFile);
 
-    Application findApplicationByPackageName(String packageName);
+    Application getApplicationByPackageName(String packageName);
 
-    List<Application> findMostPopular();
+    List<Application> getMostPopular();
+
+    List<Category> getCategories();
 
 }

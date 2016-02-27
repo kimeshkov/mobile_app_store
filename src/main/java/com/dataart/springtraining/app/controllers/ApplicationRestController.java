@@ -1,6 +1,7 @@
 package com.dataart.springtraining.app.controllers;
 
 import com.dataart.springtraining.app.model.Application;
+import com.dataart.springtraining.app.model.Category;
 import com.dataart.springtraining.app.model.FileStoreData;
 import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
@@ -28,6 +29,7 @@ public class ApplicationRestController {
 
     private static final String IMAGE_URL_TEMPLATE = "api/app/image/%s/%s";
     private static final String DEFAULT_IMAGE_URL_TEMPLATE = "static/%s.png";
+
     @Autowired
     private ApplicationService applicationService;
 
@@ -40,11 +42,17 @@ public class ApplicationRestController {
         applicationService.uploadApplication(data, file);
     }
 
+    @RequestMapping(value = "/categories", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Category> getCategories() {
+        return applicationService.getCategories();
+    }
+
     @RequestMapping(value = "/popular", method = RequestMethod.GET)
     @ResponseBody
     public List<ApplicationData> getPopular() {
         List<ApplicationData> response = new ArrayList<>();
-        for (Application application : applicationService.findMostPopular()) {
+        for (Application application : applicationService.getMostPopular()) {
             response.add(getApplicationData(application));
         }
         return response;
@@ -78,7 +86,7 @@ public class ApplicationRestController {
     @ResponseBody
     public HttpEntity<byte[]> getImage(@PathVariable String packageName,
                                        @PathVariable int size) throws IOException {
-        Application application = applicationService.findApplicationByPackageName(packageName);
+        Application application = applicationService.getApplicationByPackageName(packageName);
 
         byte[] image = fileStore.getFileAsByteArray(application.getPicture512());
 

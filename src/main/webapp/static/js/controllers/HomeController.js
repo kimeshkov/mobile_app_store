@@ -8,7 +8,7 @@ angular.module('storeApp.Controllers')
 
         var resetPagination = function (categoryId) {
             ApplicationService.getCountByCategory(categoryId, function (count) {
-                $scope.pages = new Array(Math.ceil(count/pagination.size));
+                $scope.pages = new Array(Math.ceil(count / pagination.size));
             });
             pagination.page = 0;
         };
@@ -49,6 +49,15 @@ angular.module('storeApp.Controllers')
         $scope.pageClick = function (page) {
             pagination.page = page;
             displayApps();
+        };
+
+        $scope.rateStars = [1, 2, 3, 4, 5];
+
+        $scope.rateApp = function (appResource) {
+            ApplicationService.rate(appResource, appResource.newRate, function (app) {
+                appResource = app;
+                appResource.newRate = $scope.rateStars[0];
+            })
         }
 
     });

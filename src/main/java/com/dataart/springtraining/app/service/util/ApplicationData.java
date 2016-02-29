@@ -13,6 +13,9 @@ public class ApplicationData {
     private String image128;
     private String image512;
 
+    private Integer rate;
+    private Integer reviews;
+
     public String getDescription() {
         return description;
     }
@@ -59,5 +62,21 @@ public class ApplicationData {
 
     public void setImage512(String image512) {
         this.image512 = image512;
+    }
+
+    public Integer getRate() {
+        return rate;
+    }
+
+    public void setRate(Integer rate) {
+        this.rate = rate;
+    }
+
+    public Integer getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(Integer reviews) {
+        this.reviews = reviews;
     }
 }

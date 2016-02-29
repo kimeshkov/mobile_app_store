@@ -7,8 +7,6 @@ import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.ImageSize;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -86,6 +84,14 @@ public class ApplicationRestController {
         return response;
     }
 
+    @RequestMapping(value = "/updateRate/{packageName}", method = RequestMethod.PUT)
+    @ResponseBody
+    public ApplicationData rate(@RequestBody ApplicationData data, @PathVariable String packageName) {
+        applicationService.rateByPackageName(packageName, data.getRate());
+
+        return getApplicationData(applicationService.getByPackageName(packageName));
+    }
+
     private ApplicationData getApplicationData(Application application) {
         ApplicationData applicationData = new ApplicationData();
 
@@ -95,6 +101,8 @@ public class ApplicationRestController {
         applicationData.setPackageName(application.getPackageName());
         applicationData.setImage128(getImageUrl(application, ImageSize.IMAGE_128));
         applicationData.setImage512(getImageUrl(application, ImageSize.IMAGE_512));
+        applicationData.setRate(application.getAverageRate());
+        applicationData.setReviews(application.getRates().size());
 
         return applicationData;
     }

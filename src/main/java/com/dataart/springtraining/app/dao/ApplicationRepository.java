@@ -1,7 +1,6 @@
 package com.dataart.springtraining.app.dao;
 
 import com.dataart.springtraining.app.model.Application;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 

@@ -38,15 +38,22 @@
                         {{app.description}}
 
                         <div class="ratings pull-button">
-                            <p class="pull-right">15 reviews</p>
+                            <p class="pull-right">
+                                <span>Rate this app</span>
+                                <select ng-model="app.newRate"
+                                        ng-options="val for val in rateStars"
+                                        ng-init="app.newRate = app.newRate || rateStars[0]">
+                                </select>
+                                <button ng-click="rateApp(app)" class="btn btn-primary btn-xs">Rate</button>
+                            </p>
 
                             <p>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
-                                <span class="glyphicon glyphicon-star"></span>
+                                <span ng-repeat="star in rateStars track by $index"
+                                      ng-class=" ($index + 1 <= app.rate) ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty'"></span>
+
+                                <span>{{app.reviews}} reviews</span>
                             </p>
+
                         </div>
                     </div>
                 </div>

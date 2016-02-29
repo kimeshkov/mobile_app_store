@@ -2,6 +2,7 @@ package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -50,6 +51,13 @@ public class Application {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "application_rate",
+            joinColumns = @JoinColumn(name = "application_id")
+    )
+    private List<Rate> rates;
 
     public Integer getId() {
         return id;
@@ -129,6 +137,31 @@ public class Application {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public List<Rate> getRates() {
+        return rates;
+    }
+
+    public void setRates(List<Rate> rates) {
+        this.rates = rates;
+    }
+
+    public void addRate(Rate rate) {
+        rates.add(rate);
+    }
+
+    public int getAverageRate() {
+        return rates.size() == 0 ? 0 : calculateAverageRate();
+
+    }
+
+    private int calculateAverageRate() {
+        int sum = 0;
+        for (Rate rate : rates) {
+            sum += rate.getValue();
+        }
+        return sum / rates.size();
     }
 
     @Override

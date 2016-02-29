@@ -12,7 +12,7 @@ head.load(
     {file: 'static/js/controllers/Controllers.js'},
     {file: 'static/js/controllers/MainController.js'},
     {file: 'static/js/controllers/HomeController.js'},
-    {file: 'static/js/controllers/DownloadController.js'},
+    {file: 'static/js/controllers/ApplicationController.js'},
     {file: 'static/js/controllers/UploadController.js'},
     {file: 'static/js/app.js'}
 );

@@ -1,7 +1,7 @@
 angular.module('storeApp.Services')
     .service('ApplicationService', function ($resource, $location) {
         var service = this;
-        var appResource = $resource('api/app/:action/:categoryId/:page/:size/:sortBy', {},
+        var AppResource = $resource('api/app/:action/:packageName/:categoryId/:page/:size/:sortBy', {},
             {
                 popular: {
                     method: 'GET',
@@ -20,6 +20,22 @@ angular.module('storeApp.Services')
                     method: 'GET',
                     isArray: true,
                     params: {'action': 'categories'}
+                },
+
+                count: {
+                    method: 'GET',
+                    isArray: true,
+                    params: {
+                        'action': 'categories',
+                        'categoryId': '@id'
+                    }
+                },
+
+                updateRate: {
+                    method: 'PUT',
+                    params: {
+                        'action': 'updateRate'
+                    }
                 }
             }
         );
@@ -27,7 +43,7 @@ angular.module('storeApp.Services')
         var domainUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + '/';
 
         service.getPopular = function (callback) {
-            appResource.popular().$promise.then(function (apps) {
+            AppResource.popular().$promise.then(function (apps) {
                 $.each(apps, function (i, app) {
                     app.image128 = domainUrl + app.image128;
                     app.image512 = domainUrl + app.image512;
@@ -37,13 +53,13 @@ angular.module('storeApp.Services')
         };
 
         service.getCategories = function (callback) {
-            appResource.categories().$promise.then(function (categories) {
+            AppResource.categories().$promise.then(function (categories) {
                 callback(categories);
             });
         };
 
         service.getCountByCategory = function (categoryId, callback) {
-            appResource.get(
+            AppResource.get(
                 {
                     action: 'category',
                     categoryId: categoryId
@@ -55,7 +71,7 @@ angular.module('storeApp.Services')
         };
 
         service.getByCategory = function (categoryId, pagination, callback) {
-            appResource.query(
+            AppResource.query(
                 {
                     action: 'category',
                     categoryId: categoryId,
@@ -80,9 +96,20 @@ angular.module('storeApp.Services')
             data.append('categoryId', categoryId);
             data.append('file', file);
 
-            appResource.upload({}, data, function (value, responseHeaders) {
+            AppResource.upload({}, data, function (value, responseHeaders) {
                 console.log(value);
                 console.log(responseHeaders);
             });
+        };
+
+        service.rate = function (resource, value, callback) {
+            resource.rate = value;
+            var packageName = resource.packageName;
+            resource.$updateRate({packageName: packageName}, function (app) {
+                app.image128 = domainUrl + app.image128;
+                app.image512 = domainUrl + app.image512;
+
+                callback(app);
+            })
         }
     });

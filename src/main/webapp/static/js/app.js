@@ -19,10 +19,10 @@ mainModule.config(['$routeProvider', '$httpProvider', function ($routeProvider, 
             controller: 'UploadCtrl',
             controllerAs: 'uploadCtrl'
         })
-        .when('/download', {
-            templateUrl: 'static/partials/download-app.html',
-            controller: 'DownloadCtrl',
-            controllerAs: 'downloadCtrl'
+        .when('/application', {
+            templateUrl: 'static/partials/application.html',
+            controller: 'ApplicationCtrl',
+            controllerAs: 'appCtrl'
         })
         .otherwise({redirectTo: '/'});
 

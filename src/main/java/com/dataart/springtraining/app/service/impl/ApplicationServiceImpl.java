@@ -2,8 +2,11 @@ package com.dataart.springtraining.app.service.impl;
 
 import com.dataart.springtraining.app.dao.ApplicationCategoryRepository;
 import com.dataart.springtraining.app.dao.ApplicationRepository;
+import com.dataart.springtraining.app.dao.UsersRepository;
 import com.dataart.springtraining.app.model.Application;
 import com.dataart.springtraining.app.model.Category;
+import com.dataart.springtraining.app.model.Rate;
+import com.dataart.springtraining.app.model.User;
 import com.dataart.springtraining.app.service.ApplicationService;
 import com.dataart.springtraining.app.service.FileStore;
 import com.dataart.springtraining.app.service.ZipFileValidator;
@@ -17,6 +20,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -53,6 +59,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private ApplicationRepository applicationRepository;
 
+    @Autowired
+    private UsersRepository usersRepository;
+
     @Override
     @Transactional
     @CacheEvict(value = "popular", allEntries = true)
@@ -69,16 +78,19 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Application getByPackageName(String packageName) {
         return applicationRepository.findByPackageName(packageName);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long getCountByCategoryId(Integer categoryId) {
         return applicationRepository.countByCategoryId(categoryId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Application> getByCategoryId(Integer categoryId, Integer page, Integer size, String sortBy) {
         PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, getSortField(sortBy));
         return applicationRepository.findByCategoryId(categoryId, pageRequest);
@@ -97,17 +109,40 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Cacheable("popular")
+    @Transactional(readOnly = true)
     public List<Application> getMostPopular() {
         return applicationRepository.findFirst5ByOrderByDownloadsDesc();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Category> getCategories() {
         List<Category> categories = new ArrayList<>();
         for (Category category : applicationCategoryRepository.findAll()) {
             categories.add(category);
         }
         return categories;
+    }
+
+    @Override
+    @Transactional
+    public void rateByPackageName(String packageName, Integer rateValue) {
+        Application application = applicationRepository.findByPackageName(packageName);
+        application.addRate(createRate(rateValue));
+        applicationRepository.save(application);
+    }
+
+    private Rate createRate(Integer rateValue) {
+        Rate rate = new Rate();
+        rate.setRateByUser(getCurrentUser());
+        rate.setValue(rateValue);
+        return rate;
+    }
+
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        return usersRepository.findByUsername(userDetails.getUsername());
     }
 
     private void process(ApplicationData data, MultipartFile multipartFile) throws ApplicationUploadException {

@@ -25,4 +25,6 @@ public interface ApplicationService {
 
     List<Category> getCategories();
 
+    void rateByPackageName(String packageName, Integer rate);
+
 }

@@ -29,7 +29,7 @@ import java.util.List;
 public class ApplicationRestController {
 
     private static final String IMAGE_URL_TEMPLATE = "api/app/image/%s/%s";
-    private static final String DEFAULT_IMAGE_URL_TEMPLATE = "static/%s.png";
+    private static final String DEFAULT_IMAGE_URL_TEMPLATE = "static/images/%s.png";
 
     @Autowired
     private ApplicationService applicationService;
@@ -43,10 +43,18 @@ public class ApplicationRestController {
         applicationService.uploadApplication(data, file);
     }
 
-    @RequestMapping(value = "/download", method = RequestMethod.GET)
+    @RequestMapping(value = "/download/{packageName}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Category> downloadApplication() {
-        return Collections.emptyList();
+    public HttpEntity<byte[]> downloadApplication(@PathVariable String packageName) throws IOException {
+        Application application = applicationService.downloadByPackageName(packageName);
+
+        byte[] zipFile = fileStore.getFileAsByteArray(application.getZipFile());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentLength(zipFile.length);
+
+        return new HttpEntity<>(zipFile, headers);
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)
@@ -92,6 +100,12 @@ public class ApplicationRestController {
         return getApplicationData(applicationService.getByPackageName(packageName));
     }
 
+    @RequestMapping(value = "/application/{packageName}", method = RequestMethod.GET)
+    @ResponseBody
+    public ApplicationData getByPackageName(@PathVariable String packageName) {
+        return getApplicationData(applicationService.getByPackageName(packageName));
+    }
+
     private ApplicationData getApplicationData(Application application) {
         ApplicationData applicationData = new ApplicationData();
 
@@ -103,6 +117,7 @@ public class ApplicationRestController {
         applicationData.setImage512(getImageUrl(application, ImageSize.IMAGE_512));
         applicationData.setRate(application.getAverageRate());
         applicationData.setReviews(application.getRates().size());
+        applicationData.setDownloads(application.getDownloads());
 
         return applicationData;
     }

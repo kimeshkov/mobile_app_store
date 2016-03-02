@@ -19,7 +19,7 @@ mainModule.config(['$routeProvider', '$httpProvider', function ($routeProvider, 
             controller: 'UploadCtrl',
             controllerAs: 'uploadCtrl'
         })
-        .when('/application', {
+        .when('/application/:packageName', {
             templateUrl: 'static/partials/application.html',
             controller: 'ApplicationCtrl',
             controllerAs: 'appCtrl'

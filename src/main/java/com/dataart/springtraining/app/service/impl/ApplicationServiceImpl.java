@@ -84,6 +84,14 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
+    @Transactional
+    public Application downloadByPackageName(String packageName) {
+        Application application = applicationRepository.findByPackageName(packageName);
+        application.setDownloads(application.getDownloads() + 1);
+        return applicationRepository.save(application);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Long getCountByCategoryId(Integer categoryId) {
         return applicationRepository.countByCategoryId(categoryId);
@@ -97,11 +105,11 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     private String getSortField(String sortBy) {
-        boolean validName = DOWNLOADS_FIELD.equalsIgnoreCase(sortBy)
-                || CREATION_DATE_FIELD.equalsIgnoreCase(sortBy);
+        boolean validName = DOWNLOADS_FIELD.equals(sortBy)
+                || CREATION_DATE_FIELD.equals(sortBy);
 
         if (!StringUtils.isEmpty(sortBy) && validName) {
-            return sortBy.toLowerCase();
+            return sortBy;
         } else {
             return DOWNLOADS_FIELD;
         }

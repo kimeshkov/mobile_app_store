@@ -28,33 +28,31 @@
 
             <div class="media">
                 <div class="media-left">
-                    <a href="#">
-                        <img class="media-object" src="http://placehold.it/512x512" alt="...">
+                    <a href="#/">
+                        <img class="media-object" ng-src="{{app.image512}}" alt="...">
                     </a>
                 </div>
 
                 <div class="media-body">
-                    <h4 class="media-heading"><a href="#">First Product</a></h4>
+                    <h4 class="media-heading">{{app.name}}</h4>
 
-                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante
-                    sollicitudin
-                    commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce
-                    condimentum
-                    nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    {{app.description}}
 
-                    <div class="ratings">
-                        <p class="pull-right">15 reviews</p>
+                    <div class="ratings pull-button">
+                        <p class="pull-right">
+                            <a type="button"
+                               ng-href="{{downloadUrl}}"
+                               class="btn btn-primary btn-lg pull-right download-btn">Download
+                            </a>
+                        </p>
 
                         <p>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
-                            <span class="glyphicon glyphicon-star"></span>
+                                <span ng-repeat="star in rateStars track by $index"
+                                      ng-class=" ($index + 1 <= app.rate) ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty'"></span>
+
+                            <span>reviews: {{app.reviews}} downloads: {{app.downloads}}</span>
                         </p>
                     </div>
-                    <button type="button" class="btn btn-primary btn-lg pull-right download-btn">Download
-                    </button>
                 </div>
             </div>
         </div>

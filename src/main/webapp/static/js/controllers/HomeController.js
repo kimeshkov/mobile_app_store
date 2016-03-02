@@ -4,6 +4,11 @@ angular.module('storeApp.Controllers')
 
         var selectedCategory;
 
+        $scope.sortByValues = [
+            {value: 'creationDate', name: 'Creation date'},
+            {value: 'downloads', name: 'Downloads'}
+        ];
+
         var pagination = {page: 0, size: 2};
 
         var resetPagination = function (categoryId) {
@@ -14,6 +19,7 @@ angular.module('storeApp.Controllers')
         };
 
         var displayApps = function () {
+            pagination.sortBy = $scope.selectedSortBy;
             ApplicationService.getByCategory(selectedCategory.id, pagination, function (apps) {
                 $scope.displayedApps = apps;
             })
@@ -39,6 +45,11 @@ angular.module('storeApp.Controllers')
         $scope.selectCategory = function (category) {
             selectedCategory = category;
             resetPagination(category.id);
+            displayApps();
+        };
+
+        $scope.changeSortBy = function () {
+            resetPagination(selectedCategory.id);
             displayApps();
         };
 

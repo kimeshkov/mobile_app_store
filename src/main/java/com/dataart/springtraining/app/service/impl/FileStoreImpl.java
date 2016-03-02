@@ -82,8 +82,7 @@ public class FileStoreImpl implements FileStore {
     public byte[] getFileAsByteArray(FileStoreData fileStoreData) throws IOException {
         Path filePath = Paths.get(fileStoreData.getFileName());
         Path path = rootPath.resolve(filePath);
-        byte[] data = Files.readAllBytes(path);
-        return data;
+        return Files.readAllBytes(path);
     }
 
     private FileStoreData saveImage(Path image, String packageName, String prefix) throws IOException {

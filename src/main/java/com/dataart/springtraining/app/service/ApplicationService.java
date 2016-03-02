@@ -17,6 +17,8 @@ public interface ApplicationService {
 
     Application getByPackageName(String packageName);
 
+    Application downloadByPackageName(String packageName);
+
     Long getCountByCategoryId(Integer categoryId);
 
     List<Application> getByCategoryId(Integer categoryId, Integer page, Integer size, String sortBy);

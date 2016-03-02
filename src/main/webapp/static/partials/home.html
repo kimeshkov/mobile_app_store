@@ -22,18 +22,32 @@
     </div>
 
     <div class="col-md-9">
+        <div class="row" ng-show="displayedApps.length > 0">
+            <div class="col-md-12">
+                <div class="pull-right form-inline form-group-sm">
+                    <label for="sortBy">Sort by</label>
+                    <select id="sortBy"
+                            class="form-control"
+                            ng-model="selectedSortBy"
+                            ng-change="changeSortBy()"
+                            ng-init="selectedSortBy = selectedSortBy || sortByValues[0].value">
+                        <option ng-repeat="sortBy in sortByValues" value="{{sortBy.value}}">{{sortBy.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="row app-row" ng-repeat="app in displayedApps">
             <div class="col-md-12">
 
                 <div class="media">
                     <div class="media-left">
-                        <a href="#/">
+                        <a ng-href="#/application/{{app.packageName}}">
                             <img class="media-object" ng-src="{{app.image128}}" alt="...">
                         </a>
                     </div>
 
                     <div class="media-body">
-                        <h4 class="media-heading"><a href="#/">{{app.name}}</a></h4>
+                        <h4 class="media-heading"><a ng-href="#/application/{{app.packageName}}">{{app.name}}</a></h4>
 
                         {{app.description}}
 
@@ -51,7 +65,7 @@
                                 <span ng-repeat="star in rateStars track by $index"
                                       ng-class=" ($index + 1 <= app.rate) ? 'glyphicon glyphicon-star' : 'glyphicon glyphicon-star-empty'"></span>
 
-                                <span>{{app.reviews}} reviews</span>
+                                <span>reviews: {{app.reviews}} downloads: {{app.downloads}}</span>
                             </p>
 
                         </div>

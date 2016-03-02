@@ -70,7 +70,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/index.jsp",
                         "/api/users/authenticate",
                         "/api/app/upload",
-                        "/api/app/download",
+                        "/api/app/download/**",
+                        "/api/app/application/**",
+                        "/api/app/category/**",
+                        "/api/app/categories",
                         "/api/app/popular",
                         "/api/app/image/**").permitAll()
                 .anyRequest().authenticated();

@@ -42,11 +42,30 @@ angular.module('storeApp.Services')
 
         var domainUrl = $location.protocol() + "://" + $location.host() + ":" + $location.port() + '/';
 
+
+
+        var prepareImageUrl = function (app) {
+            app.image128 = domainUrl + app.image128;
+            app.image512 = domainUrl + app.image512;
+        };
+
+        service.getByPackageName = function (packageName, callback) {
+            AppResource.get(
+                {
+                    action: 'application',
+                    packageName: packageName
+                },
+
+                function (app) {
+                    prepareImageUrl(app);
+                    callback(app)
+                })
+        };
+
         service.getPopular = function (callback) {
             AppResource.popular().$promise.then(function (apps) {
                 $.each(apps, function (i, app) {
-                    app.image128 = domainUrl + app.image128;
-                    app.image512 = domainUrl + app.image512;
+                    prepareImageUrl(app);
                 });
                 callback(apps);
             });
@@ -82,8 +101,7 @@ angular.module('storeApp.Services')
 
                 function (apps) {
                     $.each(apps, function (i, app) {
-                        app.image128 = domainUrl + app.image128;
-                        app.image512 = domainUrl + app.image512;
+                        prepareImageUrl(app);
                     });
                     callback(apps);
                 })
@@ -106,9 +124,7 @@ angular.module('storeApp.Services')
             resource.rate = value;
             var packageName = resource.packageName;
             resource.$updateRate({packageName: packageName}, function (app) {
-                app.image128 = domainUrl + app.image128;
-                app.image512 = domainUrl + app.image512;
-
+                prepareImageUrl(app);
                 callback(app);
             })
         }

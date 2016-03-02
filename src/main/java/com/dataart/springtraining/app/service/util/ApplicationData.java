@@ -15,6 +15,7 @@ public class ApplicationData {
 
     private Integer rate;
     private Integer reviews;
+    private Integer downloads;
 
     public String getDescription() {
         return description;
@@ -78,5 +79,13 @@ public class ApplicationData {
 
     public void setReviews(Integer reviews) {
         this.reviews = reviews;
+    }
+
+    public Integer getDownloads() {
+        return downloads;
+    }
+
+    public void setDownloads(Integer downloads) {
+        this.downloads = downloads;
     }
 }

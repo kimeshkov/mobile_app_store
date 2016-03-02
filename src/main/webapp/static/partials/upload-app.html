@@ -1,12 +1,33 @@
-<div class="form-group">
-    <input type="text" name="name" ng-model="name" class="form-control" placeholder="Name">
-    <input type="text" name="description" ng-model="description" class="form-control" placeholder="Description">
-    <input name="appFile" app-upload="appFile" type="file" />
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="name">Application name</label>
+            <input type="text" id="name" ng-model="name" class="form-control" placeholder="Name">
+        </div>
 
-    <label for="categoryId"> Category:</label>
-    <select id="categoryId" name="categoryId" ng-model="categoryId">
-        <option ng-repeat="category in categories" value="{{category.id}}">{{category.categoryName}}</option>
-    </select>
-    <button type="submit" class="btn btn-default" ng-click="uploadCtrl.doUpload()">Upload</button>
+        <div class="form-group">
+            <label for="description">Application description</label>
+            <textarea rows="4" id="description" ng-model="description" class="form-control"
+                  placeholder="Description"></textarea>
+        </div>
 
+        <div class="form-group">
+            <label for="selectCategory">Application category</label>
+            <select id="selectCategory"
+                    ng-model="categoryId"
+                    ng-init="categoryId = categoryId || categories[0].id"
+                    class="form-control">
+                <option ng-repeat="category in categories" value="{{category.id}}">{{category.categoryName}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="appFile">Apllication file</label>
+            <input id="appFile" app-upload="appFile" type="file"/>
+
+            <p class="help-block">File should be of .zip extension</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary" ng-click="uploadCtrl.doUpload()">Upload</button>
+    </div>
 </div>

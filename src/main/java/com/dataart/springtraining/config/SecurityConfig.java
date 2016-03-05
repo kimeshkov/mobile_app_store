@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/index.jsp",
                         "/api/users/authenticate",
-                        "/api/app/upload",
                         "/api/app/download/**",
                         "/api/app/application/**",
                         "/api/app/category/**",

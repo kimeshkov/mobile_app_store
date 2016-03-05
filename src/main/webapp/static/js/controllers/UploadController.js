@@ -19,6 +19,7 @@ angular.module('storeApp.Controllers')
 
         ApplicationService.getCategories(function (categories) {
             $scope.categories = categories;
+            $scope.categoryId = categories[0].id;
         });
 
         uploadCtrl.doUpload = function () {
@@ -28,6 +29,8 @@ angular.module('storeApp.Controllers')
             var file = $scope.appFile;
 
             ApplicationService.upload(name, description, categoryId, file);
+
+            $scope.uploadSuccess = true;
         };
     });
 

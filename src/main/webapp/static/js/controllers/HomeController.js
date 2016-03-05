@@ -27,10 +27,6 @@ angular.module('storeApp.Controllers')
 
         $scope.displayedApps = [];
 
-        ApplicationService.getPopular(function (apps) {
-            $scope.popularApps = apps;
-        });
-
         ApplicationService.getCategories(function (categories) {
             $scope.categories = categories;
             selectedCategory = categories[0];

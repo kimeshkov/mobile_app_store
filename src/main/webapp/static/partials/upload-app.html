@@ -1,4 +1,13 @@
 <div class="row">
+    <div ng-show="uploadSuccess"
+         class="alert alert-success alert-dismissible fade in"
+         role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">?</span>
+        </button>
+        <strong>Success!</strong> Application successfully uploaded.
+    </div>
+
     <div class="col-md-6">
         <div class="form-group">
             <label for="name">Application name</label>
@@ -8,14 +17,13 @@
         <div class="form-group">
             <label for="description">Application description</label>
             <textarea rows="4" id="description" ng-model="description" class="form-control"
-                  placeholder="Description"></textarea>
+                      placeholder="Description"></textarea>
         </div>
 
         <div class="form-group">
             <label for="selectCategory">Application category</label>
             <select id="selectCategory"
                     ng-model="categoryId"
-                    ng-init="categoryId = categoryId || categories[0].id"
                     class="form-control">
                 <option ng-repeat="category in categories" value="{{category.id}}">{{category.categoryName}}</option>
             </select>

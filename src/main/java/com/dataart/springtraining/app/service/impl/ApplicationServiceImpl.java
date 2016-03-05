@@ -85,6 +85,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     @Transactional
+    @CacheEvict(value = "popular", allEntries = true)
     public Application downloadByPackageName(String packageName) {
         Application application = applicationRepository.findByPackageName(packageName);
         application.setDownloads(application.getDownloads() + 1);

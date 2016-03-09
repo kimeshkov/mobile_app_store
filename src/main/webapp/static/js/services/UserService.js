@@ -42,7 +42,7 @@ angular.module('storeApp.Services')
         };
 
         service.isAdmin = function () {
-            return hasRole("Admin", StorageService.getUser());
+            return hasRole("ROLE_ADMIN", StorageService.getUser());
         }
 
     });

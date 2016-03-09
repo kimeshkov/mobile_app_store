@@ -4,12 +4,14 @@ import com.dataart.springtraining.app.model.Application;
 import com.dataart.springtraining.app.model.Category;
 import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.UploadResult;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ApplicationService {
 
+    @Secured("ROLE_ADMIN")
     UploadResult uploadApplication(ApplicationData data, MultipartFile multipartFile);
 
     Application getByPackageName(String packageName);

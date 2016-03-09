@@ -56,7 +56,6 @@ public class PersistenceConfig {
         entityManagerFactoryBean.setLoadTimeWeaver(new InstrumentationLoadTimeWeaver());
 
         HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
-        //jpaVendorAdapter.setShowSql(true);
         entityManagerFactoryBean.setJpaVendorAdapter(jpaVendorAdapter);
 
         entityManagerFactoryBean.setJpaProperties(additionalProperties());

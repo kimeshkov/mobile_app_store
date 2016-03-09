@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -72,11 +71,11 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     }
 
     private void createUsers() {
-        List<Role> roles = createRoles("User", "Admin");
+        List<Role> roles = createRoles("ROLE_USER", "ROLE_ADMIN");
 
         User user = new User();
-        user.setUsername("Name");
-        user.setPassword(passwordEncoder.encode("Pass"));
+        user.setUsername("User");
+        user.setPassword(passwordEncoder.encode("User"));
         user.setRoles(roles.subList(0, 1));
 
         User admin = new User();
@@ -93,7 +92,7 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
 
     private void createCategories(String... categoryNames) {
         List<Category> categories = new ArrayList<>();
-        for(String categoryName : categoryNames) {
+        for (String categoryName : categoryNames) {
             Category category = new Category();
             category.setCategoryName(categoryName);
             categories.add(category);

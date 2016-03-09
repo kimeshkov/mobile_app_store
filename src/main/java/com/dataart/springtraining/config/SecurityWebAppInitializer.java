@@ -3,7 +3,7 @@ package com.dataart.springtraining.config;
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
 /**
- * Created by mkim on 03/12/2015.
+ * This class is used to enable security filter chain.
  */
 public class SecurityWebAppInitializer extends AbstractSecurityWebApplicationInitializer  {
 

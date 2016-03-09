@@ -1,8 +1,5 @@
 package com.dataart.springtraining.app.service.util;
 
-/**
- * Created by mkim on 20/10/2015.
- */
 public class UploadResult {
     private boolean isSuccess;
     private String errorMessage;

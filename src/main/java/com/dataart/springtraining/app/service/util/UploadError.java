@@ -1,8 +1,5 @@
 package com.dataart.springtraining.app.service.util;
 
-/**
- * Created by mkim on 20/10/2015.
- */
 public enum UploadError {
     IO_ERROR("Error while reading file"),
     TEXT_FILE_FORMAT_ERROR("Text file has wrong format"),

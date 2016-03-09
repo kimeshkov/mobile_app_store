@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created by mkim on 16/10/2015.
- */
 @RestController
 @RequestMapping("/api/users")
 public class UserRestController {

@@ -16,9 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created by mkim on 15/10/2015.
- */
 @Service
 public class UserServiceImpl implements UserService {
 

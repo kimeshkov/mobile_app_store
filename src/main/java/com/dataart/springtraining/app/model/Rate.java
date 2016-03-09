@@ -2,9 +2,6 @@ package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
 
-/**
- * Created by kimeshkov on 28.02.2016.
- */
 @Embeddable
 public class Rate {
 

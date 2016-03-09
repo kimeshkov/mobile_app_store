@@ -2,9 +2,6 @@ package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
 
-/**
- * Created by mkim on 30/11/2015.
- */
 @Entity
 @Table(name = "filestore_data")
 public class FileStoreData {

@@ -7,9 +7,6 @@ import com.dataart.springtraining.app.service.util.UploadError;
 import com.dataart.springtraining.app.service.util.validation.ValidationContext;
 import com.dataart.springtraining.app.service.util.validation.ValidationRule;
 
-/**
- * Created by kimeshkov on 24.02.2016.
- */
 public class CategoryValidRule implements ValidationRule {
     private ApplicationCategoryRepository applicationCategoryRepository;
 

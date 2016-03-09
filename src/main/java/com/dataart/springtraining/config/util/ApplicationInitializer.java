@@ -18,9 +18,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by kimeshkov on 27.01.2016.
- */
 @Component
 public class ApplicationInitializer implements SmartInitializingSingleton {
 
@@ -47,7 +44,7 @@ public class ApplicationInitializer implements SmartInitializingSingleton {
     public void afterSingletonsInstantiated() {
         clearFileStore();
         createUsers();
-        createCategories("Games", "Multimedia");
+        createCategories("Games", "Multimedia", "Productivity", "Tools", "Health", "Lifestyle");
     }
 
     private void clearFileStore() {

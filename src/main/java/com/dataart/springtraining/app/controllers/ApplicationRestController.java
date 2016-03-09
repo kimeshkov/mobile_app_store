@@ -17,12 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-/**
- * Created by mkim on 17/10/2015.
- */
 
 @RestController
 @RequestMapping("/api/app")

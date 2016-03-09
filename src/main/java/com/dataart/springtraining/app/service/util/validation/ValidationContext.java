@@ -3,9 +3,6 @@ package com.dataart.springtraining.app.service.util.validation;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by mkim on 30/11/2015.
- */
 public class ValidationContext {
     private int filesCount;
     private boolean isTxtFilePresent;

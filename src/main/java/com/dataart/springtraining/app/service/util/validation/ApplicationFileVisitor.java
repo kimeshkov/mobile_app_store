@@ -1,10 +1,6 @@
 package com.dataart.springtraining.app.service.util.validation;
 
-import com.dataart.springtraining.app.service.exceptions.ApplicationUploadException;
-import com.dataart.springtraining.app.service.util.ApplicationData;
 import com.dataart.springtraining.app.service.util.FileTypeValidator;
-import com.dataart.springtraining.app.service.util.validation.ValidationContext;
-import com.dataart.springtraining.app.service.util.validation.ValidationRule;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -15,9 +11,6 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 
-/**
- * Created by mkim on 30/11/2015.
- */
 public class ApplicationFileVisitor extends SimpleFileVisitor<Path> {
     private ValidationContext context;
 
@@ -42,7 +35,7 @@ public class ApplicationFileVisitor extends SimpleFileVisitor<Path> {
     }
 
     private void processTextFile(Path file, ValidationContext context) throws IOException {
-        if(!context.isTxtFilePresent()) {
+        if (!context.isTxtFilePresent()) {
             context.setTxtFilePresent(true);
             context.setTextFileLines(parseTextFile(file));
         } else {

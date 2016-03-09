@@ -12,10 +12,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/**
- * Created by mkim on 29/10/2015.
- */
-
 public class FileStoreImpl implements FileStore {
     private static final String IMAGE_DIR_NAME = "images";
     private static final String ZIP_FILE_DIR_NAME = "zip_files";

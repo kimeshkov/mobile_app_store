@@ -6,9 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
-/**
- * Created by mkim on 20/10/2015.
- */
 public interface ApplicationRepository extends CrudRepository<Application, Integer> {
 
     Application findByPackageName(String packageName);

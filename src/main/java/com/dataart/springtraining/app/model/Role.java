@@ -2,9 +2,6 @@ package com.dataart.springtraining.app.model;
 
 import javax.persistence.*;
 
-/**
- * Created by kimeshkov on 30.01.2016.
- */
 @Entity
 @Table(name = "role")
 public class Role {

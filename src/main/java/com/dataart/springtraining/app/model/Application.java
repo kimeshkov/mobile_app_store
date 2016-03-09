@@ -5,10 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by mkim on 13/10/2015.
- */
-
 @Entity
 @Table(
         name = "application",

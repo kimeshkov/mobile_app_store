@@ -1,9 +1,5 @@
 package com.dataart.springtraining.app.service.util;
 
-
-/**
- * Created by mkim on 29/10/2015.
- */
 public class ApplicationData {
     private String description;
     private Integer categoryId;

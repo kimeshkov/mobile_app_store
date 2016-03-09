@@ -8,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by kimeshkov on 21.01.2016.
- */
 public class UnauthorizedEntryPoint implements AuthenticationEntryPoint {
 
     @Override

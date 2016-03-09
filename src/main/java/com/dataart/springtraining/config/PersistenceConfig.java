@@ -19,10 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-/**
- * Created by mkim on 15/10/2015.
- */
-
 @Configuration
 @EnableJpaRepositories(basePackages = "com.dataart.springtraining.app.dao")
 @EnableTransactionManagement

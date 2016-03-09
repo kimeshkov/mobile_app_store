@@ -6,9 +6,6 @@ import com.dataart.springtraining.app.service.util.UploadError;
 import com.dataart.springtraining.app.service.util.validation.ValidationContext;
 import com.dataart.springtraining.app.service.util.validation.ValidationRule;
 
-/**
- * Created by mkim on 01/12/2015.
- */
 public class ImageFilesPresenceRule implements ValidationRule {
 
     @Override

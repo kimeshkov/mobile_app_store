@@ -11,9 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by mkim on 20/10/2015.
- */
 public class ParametersFormatRule implements ValidationRule {
     private static final String SEPARATE_SYMBOL = ":";
 

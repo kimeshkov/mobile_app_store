@@ -18,10 +18,6 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import java.io.IOException;
 import java.util.Arrays;
 
-/**
- * Created by mkim on 17/10/2015.
- */
-
 @Configuration
 @EnableCaching
 @ComponentScan({"com.dataart.springtraining.app", "com.dataart.springtraining.config.util"})

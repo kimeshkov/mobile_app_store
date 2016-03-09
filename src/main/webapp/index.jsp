@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <input type="text" name="username" class="form-control" placeholder="Username"
                                    ng-model="username">
-                            <input type="text" name="password" class="form-control" placeholder="Password"
+                            <input type="password" name="password" class="form-control" placeholder="Password"
                                    ng-model="password">
                         </div>
                         <button type="submit" class="btn btn-default" ng-click="main.login()">Sign in</button>

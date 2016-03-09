@@ -20,10 +20,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by mkim on 20/10/2015.
- */
-
 @Service
 public class ZipFileValidatorImpl implements ZipFileValidator {
 

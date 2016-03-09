@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * Created by kimeshkov on 28.01.2016.
+ * This filter is used to detect JWT token. If token is present then request will be authenticated.
  */
 public class JWTAuthenticationFilter extends GenericFilterBean {
     private static final String AUTHORIZATION_HEADER = "Authorization";

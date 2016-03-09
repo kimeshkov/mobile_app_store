@@ -5,9 +5,6 @@ import com.dataart.springtraining.app.model.FileStoreData;
 import java.io.IOException;
 import java.nio.file.Path;
 
-/**
- * Created by mkim on 29/10/2015.
- */
 public interface FileStore {
 
     FileStoreData saveZipFile(Path applicationFile, String packageName) throws IOException;

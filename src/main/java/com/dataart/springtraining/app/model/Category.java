@@ -3,10 +3,6 @@ package com.dataart.springtraining.app.model;
 import javax.persistence.*;
 import java.util.Objects;
 
-/**
- * Created by mkim on 29/10/2015.
- */
-
 @Entity
 @Table(name = "category")
 public class Category {

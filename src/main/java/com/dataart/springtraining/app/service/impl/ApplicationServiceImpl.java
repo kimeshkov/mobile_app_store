@@ -37,10 +37,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-/**
- * Created by mkim on 17/10/2015.
- */
-
 @Service
 public class ApplicationServiceImpl implements ApplicationService {
 
